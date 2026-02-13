@@ -21,7 +21,7 @@
   "nav": {
     "features": "Features",
     "pricing": "Pricing",
-    "documentation": "Documentation",
+    "documentation": "Production checklist",
     "myDashboard": "My Dashboard",
     "signIn": "Sign in",
     "createAccount": "Create account",
@@ -126,13 +126,13 @@
     }
   },
   "docs": {
-    "title": "Documentation",
-    "subtitle": "Deploy guides and stack references",
+    "title": "Production checklist",
+    "subtitle": "Pre-launch checklist and technical references",
     "architecture": {
       "title": "Architecture",
       "desc": "Overview of the monorepo, multi-tenant model and structure.",
-      "extra": "Here you'll find the app documentation, guides and technical references.",
-      "docsLink": "View documentation",
+      "extra": "Production checklist and technical docs before going live.",
+      "docsLink": "Production checklist",
       "apiDocLink": "API docs (Scalar)",
       "repoLink": "GitHub repository"
     },
@@ -147,14 +147,54 @@
     "guides": "Guides and references for the boilerplate"
   },
   "docsPage": {
-    "title": "Documentation",
-    "subtitle": "Guides and references for the boilerplate",
-    "architecture": { "title": "Architecture", "desc": "Overview of the monorepo, multi-tenant model and structure." },
-    "deployCoolify": { "title": "Deploy with Coolify", "desc": "Deploy to Coolify step by step." },
-    "deployDokploy": { "title": "Deploy with Dokploy", "desc": "Deploy to Dokploy." },
-    "selfHosted": { "title": "Self-hosted", "desc": "Guide for hosting on your own server." },
-    "polar": { "title": "Polar.sh", "desc": "Billing documentation with Polar." },
-    "betterAuth": { "title": "Better Auth", "desc": "Authentication, organizations and invitations." }
+    "title": "Production checklist",
+    "subtitle": "Things to verify before going live",
+    "progress": "{completed} of {total} completed",
+    "checklistTitle": "Checklist",
+    "checklistDesc": "Mark each item as you complete it. Your progress is saved locally.",
+    "checklist": {
+      "envDatabase": {
+        "title": "DATABASE_URL configured",
+        "desc": "PostgreSQL connection string for your database."
+      },
+      "envAuthSecret": {
+        "title": "BETTER_AUTH_SECRET set (32+ chars)",
+        "desc": "Generate with: openssl rand -base64 32"
+      },
+      "envAuthOrigins": {
+        "title": "BETTER_AUTH_URL and BETTER_AUTH_TRUSTED_ORIGINS",
+        "desc": "Production API URL and comma-separated allowed origins (e.g. https://app.example.com)."
+      },
+      "envPublicUrls": {
+        "title": "NEXT_PUBLIC_API_URL and NEXT_PUBLIC_APP_URL",
+        "desc": "Frontend env vars pointing to your API and app domains."
+      },
+      "migrations": {
+        "title": "Database migrations applied",
+        "desc": "Run pnpm --filter @workspace/db db:push or db:migrate."
+      },
+      "superAdmin": {
+        "title": "First super admin created",
+        "desc": "Complete the bootstrap flow on first run."
+      },
+      "sslProxy": {
+        "title": "SSL/HTTPS via reverse proxy",
+        "desc": "Caddy, Traefik or Nginx proxying to web (3000) and API (4000)."
+      },
+      "polarConfig": {
+        "title": "(Optional) Polar billing configured",
+        "desc": "POLAR_ACCESS_TOKEN, POLAR_SERVER=production if using billing."
+      },
+      "polarWebhook": {
+        "title": "(Optional) Polar webhook registered",
+        "desc": "Add https://api.yourdomain.com/api/billing/webhooks in Polar dashboard."
+      }
+    },
+    "referencesTitle": "References",
+    "refArchitecture": "Architecture",
+    "refSelfHost": "Self-hosted",
+    "refDokploy": "Dokploy",
+    "refCoolify": "Coolify"
   },
   "auth": {
     "login": {
