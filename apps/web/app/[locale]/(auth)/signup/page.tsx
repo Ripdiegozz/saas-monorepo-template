@@ -19,6 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card"
+import { ArrowLeftIcon } from "lucide-react"
 
 export default function SignupPage() {
   const t = useTranslations("auth.signup")
@@ -81,7 +82,13 @@ export default function SignupPage() {
     : "/login"
 
   return (
-    <div className="flex min-h-svh items-center justify-center p-4">
+    <div className="relative flex min-h-svh items-center justify-center p-4">
+      <Button variant="ghost" size="lg" className="absolute top-4 left-4" asChild>
+        <Link href="/">
+          <ArrowLeftIcon className="mr-2 size-5" />
+          {tCommon("back")}
+        </Link>
+      </Button>
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>{t("title")}</CardTitle>
