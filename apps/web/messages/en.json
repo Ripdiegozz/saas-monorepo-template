@@ -30,7 +30,15 @@
     "team": "Team",
     "calendar": "Calendar",
     "myOrganization": "My organization",
+    "adminPanel": "Admin panel",
+    "lastOrganization": "Last organization",
     "signOut": "Sign out"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   },
   "home": {
     "welcomeTitle": "Welcome to {appName}",
@@ -122,7 +130,11 @@
     "subtitle": "Deploy guides and stack references",
     "architecture": {
       "title": "Architecture",
-      "desc": "Overview of the monorepo, multi-tenant model and structure."
+      "desc": "Overview of the monorepo, multi-tenant model and structure.",
+      "extra": "Here you'll find the app documentation, guides and technical references.",
+      "docsLink": "View documentation",
+      "apiDocLink": "API docs (Scalar)",
+      "repoLink": "GitHub repository"
     },
     "polar": {
       "title": "Polar.sh",

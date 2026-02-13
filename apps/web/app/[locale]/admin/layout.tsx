@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "@/i18n/navigation"
 import { authClient } from "@/lib/auth-client"
 import { getAdminStatus, postAdminEnsureDefaultOrg } from "@/lib/api-client"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@workspace/ui/components/button"
 import {
   LayoutDashboardIcon,
@@ -80,6 +81,7 @@ export default function AdminLayout({
             <span className="hidden sm:inline">Platform Admin</span>
           </I18nLink>
           <div className="flex flex-1 items-center justify-end gap-2">
+            <ThemeToggle />
             <span className="text-muted-foreground hidden max-w-[140px] truncate text-sm sm:inline">
               {session.user.email}
             </span>

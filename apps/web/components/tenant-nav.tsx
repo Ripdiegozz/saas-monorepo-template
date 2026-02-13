@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl"
 import { Link } from "@/i18n/navigation"
 import { useTenant } from "@/components/tenant-provider"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@workspace/ui/components/button"
 import {
   CalendarIcon,
@@ -33,6 +34,7 @@ export function TenantNav() {
 
   return (
     <nav className="flex flex-wrap items-center gap-2">
+      <ThemeToggle />
       {items.map(({ href, key, icon: Icon }) => (
         <Button key={href} variant="outline" size="sm" asChild>
           <Link href={href} className="flex items-center gap-2">

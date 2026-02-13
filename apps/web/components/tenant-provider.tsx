@@ -12,6 +12,7 @@ import {
   getOrganizationBySlug,
   type Organization,
 } from "@/lib/api-client";
+import { setLastTenantSlug } from "@/components/admin-bar";
 
 type TenantContextValue = {
   slug: string;
@@ -52,6 +53,10 @@ export function TenantProvider({
   useEffect(() => {
     fetchOrg();
   }, [fetchOrg]);
+
+  useEffect(() => {
+    if (slug) setLastTenantSlug(slug);
+  }, [slug]);
 
   const value: TenantContextValue = {
     slug,

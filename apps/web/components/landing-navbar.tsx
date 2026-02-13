@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl"
 import { Link } from "@/i18n/navigation"
 import { authClient } from "@/lib/auth-client"
 import { LocaleSwitcher } from "@/components/locale-switcher"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@workspace/ui/components/button"
 import { CalendarDaysIcon, MenuIcon, XIcon } from "lucide-react"
 import { useState } from "react"
@@ -58,6 +59,7 @@ export function LandingNavbar() {
             </>
           )}
 
+          <ThemeToggle />
           <LocaleSwitcher />
           <Button
             variant="ghost"
