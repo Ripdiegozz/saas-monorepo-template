@@ -88,7 +88,7 @@ export default function AdminLayout({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => authClient.signOut().then(() => router.push("/"))}
+              onClick={() => authClient.signOut().then(() => (window.location.href = "/"))}
             >
               <LogOutIcon className="mr-1 size-4" />
               {t("signOut")}

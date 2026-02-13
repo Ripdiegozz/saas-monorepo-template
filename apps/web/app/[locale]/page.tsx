@@ -32,21 +32,33 @@ export default function HomePage() {
   const [needsSetup, setNeedsSetup] = useState<boolean | null>(null)
   const [welcomeLoading, setWelcomeLoading] = useState(false)
   const [welcomeError, setWelcomeError] = useState<string | null>(null)
+  const [authCheckDone, setAuthCheckDone] = useState(false)
 
   useEffect(() => {
     if (isPending) return
-    if (!session) return
+    if (!session) {
+      setAuthCheckDone(true)
+      return
+    }
     getAdminStatus()
-      .then((status) => {
+      .then(async (status) => {
         if (status.needsBootstrap) {
           router.replace("/setup")
-        } else if (status.isSuperAdmin) {
+          return
+        }
+        if (status.isSuperAdmin) {
           router.replace("/admin")
-        } else {
+          return
+        }
+        const orgsRes = await authClient.organization.list()
+        const orgs = (orgsRes as { data?: { id: string; slug: string }[] })?.data ?? []
+        if (orgs.length === 0) {
           router.replace("/onboarding")
+        } else {
+          setAuthCheckDone(true)
         }
       })
-      .catch(() => {})
+      .catch(() => setAuthCheckDone(true))
   }, [session, isPending, router])
 
   useEffect(() => {
@@ -99,7 +111,7 @@ export default function HomePage() {
     )
   }
 
-  if (session) {
+  if (session && !authCheckDone) {
     return (
       <div className="flex min-h-svh items-center justify-center">
         <p className="text-muted-foreground">{tCommon("redirecting")}</p>
@@ -107,7 +119,7 @@ export default function HomePage() {
     )
   }
 
-  if (needsSetup === null) {
+  if (!session && needsSetup === null) {
     return (
       <div className="flex min-h-svh items-center justify-center">
         <p className="text-muted-foreground">{tCommon("loading")}</p>
@@ -115,7 +127,7 @@ export default function HomePage() {
     )
   }
 
-  if (needsSetup) {
+  if (!session && needsSetup) {
     return (
       <div className="min-h-svh flex flex-col">
         <LandingNavbar />

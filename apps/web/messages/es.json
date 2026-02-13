@@ -252,6 +252,7 @@
     "slugPlaceholder": "mi-peluqueria",
     "slugHint": "Tus clientes reservarán en /b/{slug}",
     "invalidSlug": "Solo letras minúsculas, números y guiones (ej. mi-peluqueria)",
+    "invalidChars": "Caracteres no permitidos: {chars}",
     "creating": "Creando…",
     "createBusiness": "Crear negocio",
     "backToHome": "Volver al inicio"
@@ -398,7 +399,16 @@
   },
   "checkout": {
     "redirectingToCheckout": "Redirigiendo al pago…",
-    "planNotFound": "Plan no encontrado"
+    "planNotFound": "Plan no encontrado",
+    "createWorkspaceTitle": "Crea tu espacio de trabajo",
+    "createWorkspaceDesc": "Pon nombre a tu negocio para continuar al pago.",
+    "businessName": "Nombre del negocio",
+    "businessPlaceholder": "Mi Negocio",
+    "creating": "Creando…",
+    "continueToPayment": "Continuar al pago",
+    "slugPreview": "URL: /b/{slug}",
+    "invalidChars": "Caracteres no permitidos: {chars}",
+    "billingNotConfigured": "La facturación (Polar) no está configurada. Configura POLAR_ACCESS_TOKEN, POLAR_PRODUCT_ID_PRO y las URLs de billing en el .env del servidor."
   },
   "invitation": {
     "processing": "Procesando invitación…",

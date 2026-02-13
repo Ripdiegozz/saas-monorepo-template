@@ -52,7 +52,7 @@ export default function SignupPage() {
           return
         }
         if (callbackUrl && callbackUrl.startsWith("/")) {
-          router.push(callbackUrl)
+          window.location.href = callbackUrl
           return
         }
         const status = await getAdminStatus()

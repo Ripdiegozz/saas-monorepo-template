@@ -1,13 +1,21 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { Link } from "@/i18n/navigation"
 import { authClient } from "@/lib/auth-client"
 import { LocaleSwitcher } from "@/components/locale-switcher"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@workspace/ui/components/button"
-import { CalendarDaysIcon, MenuIcon, XIcon } from "lucide-react"
-import { useState } from "react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar"
+import { CalendarDaysIcon, LayoutDashboardIcon, LogOutIcon, MenuIcon, XIcon } from "lucide-react"
+import { getLastTenantSlug } from "@/components/admin-bar"
 
 const navLinksConfig = [
   { href: "/#features", key: "features" },
@@ -20,8 +28,29 @@ export function LandingNavbar() {
   const tCommon = useTranslations("common")
   const { data: session } = authClient.useSession()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [orgs, setOrgs] = useState<{ id: string; slug: string }[] | null>(null)
+
+  useEffect(() => {
+    if (!session) return
+    authClient.organization
+      .list()
+      .then((res: unknown) => {
+        const list = (res as { data?: { id: string; slug: string }[] })?.data ?? []
+        setOrgs(list)
+      })
+      .catch(() => setOrgs([]))
+  }, [session])
+
+  const dashboardHref =
+    orgs && orgs.length > 0
+      ? `/tenant/${getLastTenantSlug() ?? orgs[0]?.slug ?? "default"}/dashboard`
+      : "/onboarding"
 
   const appName = tCommon("appName")
+  const name = session?.user?.name ?? ""
+  const initials = name
+    ? name.split(/\s+/).map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()
+    : "?"
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -45,9 +74,34 @@ export function LandingNavbar() {
 
         <div className="flex items-center gap-2">
           {session ? (
-            <Button asChild size="sm">
-              <Link href="/onboarding">{t("myDashboard")}</Link>
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-2 px-2">
+                  <Avatar className="size-8">
+                    <AvatarImage src={session.user?.image ?? undefined} alt={session.user?.name ?? ""} />
+                    <AvatarFallback>{initials}</AvatarFallback>
+                  </Avatar>
+                  <span className="hidden sm:inline max-w-[120px] truncate">
+                    {session.user?.name ?? session.user?.email ?? ""}
+                  </span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem asChild>
+                  <Link href={dashboardHref} className="flex items-center gap-2">
+                    <LayoutDashboardIcon className="size-4" />
+                    {t("dashboard")}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => authClient.signOut().then(() => (window.location.href = "/"))}
+                  className="flex items-center gap-2 text-destructive focus:text-destructive"
+                >
+                  <LogOutIcon className="size-4" />
+                  {t("signOut")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
@@ -85,7 +139,27 @@ export function LandingNavbar() {
                 {t(key)}
               </Link>
             ))}
-            {!session && (
+            {session ? (
+              <>
+                <Link
+                  href={dashboardHref}
+                  className="py-2 text-sm font-medium"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {t("dashboard")}
+                </Link>
+                <button
+                  type="button"
+                  className="py-2 text-left text-sm text-destructive"
+                  onClick={() => {
+                    setMobileOpen(false)
+                    authClient.signOut().then(() => (window.location.href = "/"))
+                  }}
+                >
+                  {t("signOut")}
+                </button>
+              </>
+            ) : (
               <>
                 <Link
                   href="/login"

@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 import { useForm } from "@tanstack/react-form"
 import { authClient } from "@/lib/auth-client"
-import { isValidSlug, toSlugFormat } from "@/lib/validation"
+import { getInvalidNameChars, toSlugFormat } from "@/lib/validation"
 import { Button } from "@workspace/ui/components/button"
 import {
   Card,
@@ -34,17 +34,18 @@ export default function OnboardingPage() {
   const [error, setError] = useState<string | null>(null)
 
   const form = useForm({
-    defaultValues: { name: "", slug: "" },
+    defaultValues: { name: "" },
     onSubmit: async ({ value }) => {
       if (creating) return
+      const name = value.name.trim()
+      const slug = toSlugFormat(name)
+      if (getInvalidNameChars(name).length > 0 || !slug) return
       setCreating(true)
       setError(null)
       try {
-        const finalSlug =
-          value.slug.trim() || toSlugFormat(value.name.trim())
         const result = await authClient.organization.create({
-          name: value.name.trim(),
-          slug: finalSlug,
+          name,
+          slug,
         })
         if ((result as { error?: { message?: string } })?.error)
           throw new Error((result as { error: { message?: string } }).error.message)
@@ -157,8 +158,13 @@ export default function OnboardingPage() {
             <form.Field
               name="name"
               validators={{
-                onChange: ({ value }) =>
-                  !value?.trim() ? tCommon("fieldRequired") : undefined,
+                onChange: ({ value }) => {
+                  const v = (value ?? "").trim()
+                  if (!v) return tCommon("fieldRequired")
+                  const invalid = getInvalidNameChars(v)
+                  if (invalid.length > 0) return t("invalidChars", { chars: invalid.join(" ") })
+                  return undefined
+                },
               }}
             >
               {(field) => (
@@ -169,56 +175,49 @@ export default function OnboardingPage() {
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder={t("businessPlaceholder")}
-                    aria-invalid={!!field.state.meta.errors?.length}
-                  />
-                  {field.state.meta.errors?.[0] && (
-                    <p className="text-destructive text-xs">
-                      {field.state.meta.errors[0]}
-                    </p>
-                  )}
-                </div>
-              )}
-            </form.Field>
-            <form.Field
-              name="slug"
-              validators={{
-                onChange: ({ value }) => {
-                  const v = (value ?? "").trim()
-                  if (!v) return undefined
-                  if (!isValidSlug(v)) return t("invalidSlug")
-                  return undefined
-                },
-              }}
-            >
-              {(field) => (
-                <div className="space-y-2">
-                  <Label htmlFor="slug">{t("slugLabel")}</Label>
-                  <Input
-                    id="slug"
-                    value={field.state.value}
-                    onChange={(e) =>
-                      field.handleChange(toSlugFormat(e.target.value))
+                    aria-invalid={
+                      !!field.state.meta.errors?.length ||
+                      getInvalidNameChars(field.state.value).length > 0
                     }
-                    placeholder={t("slugPlaceholder")}
-                    aria-invalid={!!field.state.meta.errors?.length}
                   />
-                  <p className="text-muted-foreground text-xs">
-                    {t("slugHint", {
-                      slug: field.state.value || t("slugPlaceholder"),
-                    })}
-                  </p>
-                  {field.state.meta.errors?.[0] && (
-                    <p className="text-destructive text-xs">
-                      {field.state.meta.errors[0]}
+                  {field.state.value?.trim() && (
+                    <p className="text-muted-foreground text-xs">
+                      {t("slugHint", {
+                        slug: toSlugFormat(field.state.value) || "…",
+                      })}
                     </p>
                   )}
+                  {getInvalidNameChars(field.state.value).length > 0 && (
+                    <p className="text-destructive text-xs font-medium">
+                      {t("invalidChars", {
+                        chars: getInvalidNameChars(field.state.value).join(" "),
+                      })}
+                    </p>
+                  )}
+                  {field.state.meta.errors?.[0] &&
+                    getInvalidNameChars(field.state.value).length === 0 && (
+                      <p className="text-destructive text-xs">
+                        {field.state.meta.errors[0]}
+                      </p>
+                    )}
                 </div>
               )}
             </form.Field>
           </CardContent>
           <CardFooter className="flex gap-2">
-            <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
-              {([canSubmit, isSubmitting]) => (
+            <form.Subscribe
+              selector={(state) => [
+                state.isSubmitting,
+                (state.values as { name?: string }).name ?? "",
+              ]}
+            >
+              {([isSubmitting, name]) => {
+                const trimmed = name.trim()
+                const hasInvalidChars = getInvalidNameChars(name).length > 0
+                const hasValidSlug = !!toSlugFormat(trimmed)
+                const canSubmit =
+                  trimmed.length > 0 && !hasInvalidChars && hasValidSlug
+                return (
                 <Button
                   type="submit"
                   disabled={!canSubmit || isSubmitting || creating}
@@ -232,7 +231,7 @@ export default function OnboardingPage() {
                     t("createBusiness")
                   )}
                 </Button>
-              )}
+              )}}
             </form.Subscribe>
             <Button variant="ghost" asChild>
               <Link href="/">{tCommon("cancel")}</Link>

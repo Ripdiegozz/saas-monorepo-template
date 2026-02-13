@@ -252,6 +252,7 @@
     "slugPlaceholder": "my-business",
     "slugHint": "Your clients will book at /b/{slug}",
     "invalidSlug": "Only lowercase letters, numbers and hyphens (e.g. my-business)",
+    "invalidChars": "Special characters not allowed: {chars}",
     "creating": "Creating…",
     "createBusiness": "Create business",
     "backToHome": "Back to home"
@@ -398,7 +399,16 @@
   },
   "checkout": {
     "redirectingToCheckout": "Redirecting to checkout…",
-    "planNotFound": "Plan not found"
+    "planNotFound": "Plan not found",
+    "createWorkspaceTitle": "Create your workspace",
+    "createWorkspaceDesc": "Name your business to continue to payment.",
+    "businessName": "Business name",
+    "businessPlaceholder": "My Business",
+    "creating": "Creating…",
+    "continueToPayment": "Continue to payment",
+    "slugPreview": "URL: /b/{slug}",
+    "invalidChars": "Special characters not allowed: {chars}",
+    "billingNotConfigured": "Billing (Polar) is not configured for this environment. Set POLAR_ACCESS_TOKEN, POLAR_PRODUCT_ID_PRO, and billing URLs in the server .env."
   },
   "invitation": {
     "processing": "Processing invitation…",
