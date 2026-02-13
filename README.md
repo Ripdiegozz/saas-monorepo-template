@@ -8,7 +8,7 @@ Self-hosted multi-tenant booking SaaS template (Dokploy / Coolify / Docker CE). 
 - **API**: Hono + TypeScript + Clean Architecture
 - **DB**: Drizzle ORM + PostgreSQL
 - **Auth**: Better Auth (multi-tenant organization)
-- **Billing**: Polar.sh (Free / Pro / Enterprise)
+- **Billing**: Polar.sh + Better Auth plugin (Free / Pro / Enterprise)
 - **API Docs**: OpenAPI + Scalar
 
 ## Local Development
@@ -38,6 +38,7 @@ pnpm dev
 
 ## Production & Self-Hosting
 
+- **[PRODUCTION_CHECKLIST.md](docs/PRODUCTION_CHECKLIST.md)** – Pre-launch checklist (also available at `/docs` in the app)
 - **[DEPLOY_AIO.md](docs/DEPLOY_AIO.md)** – All-in-one: Caddy + SSL (self-signed or Let's Encrypt), domain configurable
 - **[DEPLOY_SELFHOST.md](docs/DEPLOY_SELFHOST.md)** – Docker CE on VPS, env vars, external proxy (Caddy/Nginx)
 - **[FILES.md](docs/FILES.md)** – File reference for production and AIO

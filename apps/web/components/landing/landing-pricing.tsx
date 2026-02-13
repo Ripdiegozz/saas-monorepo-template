@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import { Link as I18nLink } from "@/i18n/navigation"
+import { authClient } from "@/lib/auth-client"
 import { Button } from "@workspace/ui/components/button"
 import {
   Card,
@@ -13,10 +14,9 @@ import {
 } from "@workspace/ui/components/card"
 import { CheckIcon } from "lucide-react"
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"
-
 export function LandingPricing() {
   const t = useTranslations("pricing")
+  const { data: session } = authClient.useSession()
 
   const plans = [
     {
@@ -46,7 +46,7 @@ export function LandingPricing() {
         t("pro.features.3"),
       ],
       cta: t("pro.cta"),
-      href: `${apiUrl}/api/billing/checkout`,
+      href: session ? "/checkout/pro" : "/login?callbackUrl=%2Fcheckout%2Fpro",
       highlighted: true,
     },
     {
@@ -113,25 +113,9 @@ export function LandingPricing() {
                   asChild
                 >
                   {plan.href.startsWith("http") || plan.href.startsWith("mailto") ? (
-                    <a
-                      href={
-                        plan.id === "pro" && plan.href.includes("billing")
-                          ? `${plan.href}?productId=pro`
-                          : plan.href
-                      }
-                    >
-                      {plan.cta}
-                    </a>
+                    <a href={plan.href}>{plan.cta}</a>
                   ) : (
-                    <I18nLink
-                      href={
-                        plan.id === "pro" && plan.href.includes("billing")
-                          ? `${plan.href}?productId=pro`
-                          : plan.href
-                      }
-                    >
-                      {plan.cta}
-                    </I18nLink>
+                    <I18nLink href={plan.href}>{plan.cta}</I18nLink>
                   )}
                 </Button>
               </CardFooter>

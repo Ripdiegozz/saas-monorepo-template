@@ -38,12 +38,25 @@ Infrastructure (Drizzle repositories)
 
 `GET /api/realtime` – SSE stream with heartbeats. The frontend can subscribe to refresh lists (bookings, calendar).
 
-## Billing (Polar)
+## Billing (Polar + Better Auth)
 
-- **Checkout**: `GET /api/billing/checkout?products=...`
-- **Portal**: `GET /api/billing/portal?organizationId=...`
-- **Webhooks**: `POST /api/billing/webhooks` – idempotent by `organizationId`
-- **Plans**: Free, Pro, Enterprise
+Uses **Better Auth Polar plugin** for checkout, portal, and webhooks. Requires login before payment.
+
+### Flow (landing → checkout)
+
+1. User clicks "Try Pro" on landing → redirects to `/login?callbackUrl=/checkout/pro` if not logged in
+2. After login (or signup) → redirect to `/checkout/pro`
+3. If user has no organization → redirect to `/onboarding?callbackUrl=/checkout/pro`
+4. User creates org (or selects existing) → redirect to `/checkout/pro`
+5. `authClient.checkout({ slug: "pro", referenceId: organizationId })` → redirects to Polar checkout
+6. Subscription is linked to user + organization via `referenceId`
+
+### Endpoints
+
+- **Checkout**: via Better Auth Polar plugin – `authClient.checkout()` from client
+- **Portal**: `authClient.customer.portal()` – customer self-service
+- **Webhooks**: `POST /auth/polar/webhooks` – sync subscription state by `organizationId` / `reference_id`
+- **Plans**: Free, Pro, Enterprise (Pro plan requires product in Polar dashboard)
 
 ## Infra (Docker)
 

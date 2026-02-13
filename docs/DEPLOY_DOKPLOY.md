@@ -20,13 +20,16 @@ Use Dokploy's variables panel. Reference in `dokploy.template.json`:
 - `NEXT_PUBLIC_API_URL` – `https://api.yourdomain.com`
 - `NEXT_PUBLIC_APP_URL` – `https://app.yourdomain.com`
 
-**Optional (billing):**
+**Optional (billing – Better Auth Polar):**
 
 - `POLAR_ACCESS_TOKEN`
 - `POLAR_WEBHOOK_SECRET`
 - `POLAR_SERVER` – `production`
+- `POLAR_PRODUCT_ID_PRO` – Pro product ID from Polar dashboard
 - `BILLING_SUCCESS_URL`
 - `BILLING_RETURN_URL`
+
+Webhook URL to register in Polar: `https://api.yourdomain.com/auth/polar/webhooks`
 
 ## 3. Domains
 

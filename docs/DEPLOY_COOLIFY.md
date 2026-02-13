@@ -20,13 +20,16 @@ Configure in Coolify according to your environment:
 - `NEXT_PUBLIC_API_URL`
 - `NEXT_PUBLIC_APP_URL`
 
-**Billing (optional):**
+**Billing (optional – Better Auth Polar):**
 
 - `POLAR_ACCESS_TOKEN`
 - `POLAR_WEBHOOK_SECRET`
 - `POLAR_SERVER` – `production`
+- `POLAR_PRODUCT_ID_PRO` – Pro product ID from Polar dashboard
 - `BILLING_SUCCESS_URL`
 - `BILLING_RETURN_URL`
+
+Webhook URL: `https://api.yourdomain.com/auth/polar/webhooks`
 
 ## 3. Domains and SSL
 

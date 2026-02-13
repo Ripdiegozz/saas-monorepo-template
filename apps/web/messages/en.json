@@ -188,12 +188,12 @@
         "desc": "Use compose.aio (Caddy built-in, self-signed or Let's Encrypt) or external Caddy/Traefik/Nginx."
       },
       "polarConfig": {
-        "title": "(Optional) Polar billing configured",
-        "desc": "POLAR_ACCESS_TOKEN, POLAR_SERVER=production if using billing."
+        "title": "(Optional) Polar billing configured (Better Auth)",
+        "desc": "POLAR_ACCESS_TOKEN, POLAR_WEBHOOK_SECRET, POLAR_SERVER=production, POLAR_PRODUCT_ID_PRO (Pro product ID from Polar), BILLING_SUCCESS_URL, BILLING_RETURN_URL."
       },
       "polarWebhook": {
         "title": "(Optional) Polar webhook registered",
-        "desc": "Add https://api.yourdomain.com/api/billing/webhooks in Polar dashboard."
+        "desc": "Add https://api.yourdomain.com/auth/polar/webhooks in Polar dashboard (Better Auth Polar plugin)."
       }
     },
     "referencesTitle": "References",
@@ -395,6 +395,10 @@
     "namePlaceholder": "Your name",
     "booking": "Booking…",
     "confirm": "Confirm booking"
+  },
+  "checkout": {
+    "redirectingToCheckout": "Redirecting to checkout…",
+    "planNotFound": "Plan not found"
   },
   "invitation": {
     "processing": "Processing invitation…",

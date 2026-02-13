@@ -49,7 +49,11 @@ APP_URL=https://app.yourdomain.com
 NEXT_PUBLIC_API_URL=https://api.yourdomain.com
 NEXT_PUBLIC_APP_URL=https://app.yourdomain.com
 
-# Billing (optional)
+# Billing (optional – Better Auth Polar)
+POLAR_ACCESS_TOKEN=        # From Polar org settings
+POLAR_WEBHOOK_SECRET=     # From Polar webhook config
+POLAR_SERVER=production
+POLAR_PRODUCT_ID_PRO=     # Product ID from Polar dashboard (Products > Pro > copy ID)
 BILLING_SUCCESS_URL=https://app.yourdomain.com/tenant/default/dashboard
 BILLING_RETURN_URL=https://app.yourdomain.com/tenant/default/dashboard
 ```
@@ -100,7 +104,9 @@ docker compose --env-file .env -f infra/compose/compose.aio.yml run --rm migrate
 
 ## Polar webhook
 
-If using billing, register:
+If using billing, register in Polar dashboard:
 ```
-https://api.yourdomain.com/api/billing/webhooks
+https://api.yourdomain.com/auth/polar/webhooks
 ```
+
+Also set `POLAR_PRODUCT_ID_PRO` with your Pro product ID from Polar.

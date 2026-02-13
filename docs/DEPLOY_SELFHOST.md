@@ -37,10 +37,11 @@ APP_URL=https://app.yourdomain.com
 NEXT_PUBLIC_API_URL=https://api.yourdomain.com
 NEXT_PUBLIC_APP_URL=https://app.yourdomain.com
 
-# Billing (optional)
+# Billing (optional – Better Auth Polar)
 POLAR_ACCESS_TOKEN=
 POLAR_WEBHOOK_SECRET=
 POLAR_SERVER=production
+POLAR_PRODUCT_ID_PRO=    # Product ID from Polar dashboard (Products > Pro)
 BILLING_SUCCESS_URL=https://app.yourdomain.com/tenant/default/dashboard
 BILLING_RETURN_URL=https://app.yourdomain.com/tenant/default/dashboard
 ```
@@ -77,6 +78,8 @@ api.yourdomain.com {
 }
 ```
 
-## 6. Polar webhooks
+## 6. Polar (optional)
 
-Register the webhook URL in Polar: `https://api.yourdomain.com/api/billing/webhooks`
+1. Create a Pro product in Polar dashboard and copy its ID.
+2. Add `POLAR_PRODUCT_ID_PRO` to `.env`.
+3. Register webhook in Polar: `https://api.yourdomain.com/auth/polar/webhooks`

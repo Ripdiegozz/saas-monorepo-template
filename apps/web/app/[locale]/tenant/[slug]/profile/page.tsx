@@ -71,10 +71,12 @@ export default function ProfilePage() {
     }
   }
 
-  const openBillingPortal = () => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"
-    const portalUrl = `${apiUrl}/api/billing/portal?organizationId=${organizationId}`
-    window.open(portalUrl, "_blank", "noopener,noreferrer")
+  const openBillingPortal = async () => {
+    try {
+      await authClient.customer.portal()
+    } catch {
+      // Portal may redirect; ignore errors
+    }
   }
 
   if (isLoading || !organization) {

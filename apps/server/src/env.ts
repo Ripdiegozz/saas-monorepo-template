@@ -12,6 +12,7 @@ const envSchema = z.object({
   POLAR_ACCESS_TOKEN: z.string().optional(),
   POLAR_WEBHOOK_SECRET: z.string().optional(),
   POLAR_SERVER: z.enum(["sandbox", "production"]).default("sandbox"),
+  POLAR_PRODUCT_ID_PRO: z.string().optional(), // Product ID from Polar dashboard for Pro plan
   BILLING_SUCCESS_URL: z.string().url().optional(),
   BILLING_RETURN_URL: z.string().url().optional(),
   // Frontend URL for invitation links (default: first trusted origin or localhost:3000)

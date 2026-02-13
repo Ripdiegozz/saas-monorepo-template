@@ -24,11 +24,12 @@ Quick reference of files relevant for production deployment and the AIO (all-in-
 
 | File | Purpose |
 |------|---------|
+| `docs/PRODUCTION_CHECKLIST.md` | Production checklist (markdown). Interactive version at `/docs` in deployed app. |
 | `docs/DEPLOY_AIO.md` | AIO: Caddy + SSL, self-signed or Let's Encrypt, domain configurable. |
 | `docs/DEPLOY_SELFHOST.md` | Manual VPS: Docker CE, external proxy (Caddy/Nginx), env vars. |
 | `docs/DEPLOY_DOKPLOY.md` | Dokploy one-click deploy. |
 | `docs/DEPLOY_COOLIFY.md` | Coolify one-click deploy. |
-| `docs/ARCHITECTURE.md` | Multi-tenant model, auth, billing, compose layout. |
+| `docs/ARCHITECTURE.md` | Multi-tenant model, auth, billing (Polar + Better Auth), compose layout. |
 | `docs/FILES.md` | This file – file reference. |
 
 ## Scripts

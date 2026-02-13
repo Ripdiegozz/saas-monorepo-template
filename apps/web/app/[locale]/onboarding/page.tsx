@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { useRouter } from "@/i18n/navigation"
+import { useSearchParams } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 import { useForm } from "@tanstack/react-form"
 import { authClient } from "@/lib/auth-client"
@@ -24,6 +25,8 @@ export default function OnboardingPage() {
   const t = useTranslations("onboarding")
   const tCommon = useTranslations("common")
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl")
   const { data: session, isPending } = authClient.useSession()
   const [orgs, setOrgs] = useState<{ id: string; slug: string }[] | null>(null)
   const [loading, setLoading] = useState(true)
@@ -47,7 +50,11 @@ export default function OnboardingPage() {
           throw new Error((result as { error: { message?: string } }).error.message)
         const org = (result as { data?: { id: string; slug: string } })?.data
         if (org) {
-          router.push(`/tenant/${org.slug}/dashboard`)
+          router.push(
+            callbackUrl && callbackUrl.startsWith("/")
+              ? callbackUrl
+              : `/tenant/${org.slug}/dashboard`
+          )
         } else {
           const listRes = await authClient.organization.list()
           const list = (listRes as { data?: { id: string; slug: string }[] })?.data ?? []
@@ -78,7 +85,11 @@ export default function OnboardingPage() {
   }, [session, isPending, router])
 
   const handleSelectOrg = (slug: string) => {
-    router.push(`/tenant/${slug}/dashboard`)
+    router.push(
+      callbackUrl && callbackUrl.startsWith("/")
+        ? callbackUrl
+        : `/tenant/${slug}/dashboard`
+    )
   }
 
   if (isPending || !session) {
