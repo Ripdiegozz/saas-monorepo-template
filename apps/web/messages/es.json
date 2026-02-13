@@ -169,6 +169,10 @@
         "title": "NEXT_PUBLIC_API_URL y NEXT_PUBLIC_APP_URL",
         "desc": "Variables de entorno del frontend apuntando a tu API y app."
       },
+      "envAioDomains": {
+        "title": "(AIO) APP_DOMAIN, API_DOMAIN, TLS_SELF_SIGNED",
+        "desc": "Con compose.aio: define dominios y TLS_SELF_SIGNED=true (self-signed) o false (Let's Encrypt)."
+      },
       "migrations": {
         "title": "Migraciones de base de datos aplicadas",
         "desc": "Ejecuta pnpm --filter @workspace/db db:push o db:migrate."
@@ -179,7 +183,7 @@
       },
       "sslProxy": {
         "title": "SSL/HTTPS vía reverse proxy",
-        "desc": "Caddy, Traefik o Nginx haciendo proxy a web (3000) y API (4000)."
+        "desc": "Usa compose.aio (Caddy integrado, self-signed o Let's Encrypt) o Caddy/Traefik/Nginx externo."
       },
       "polarConfig": {
         "title": "(Opcional) Polar billing configurado",
@@ -192,6 +196,8 @@
     },
     "referencesTitle": "Referencias",
     "refArchitecture": "Arquitectura",
+    "refFiles": "Referencia de archivos",
+    "refAio": "AIO (Caddy + SSL)",
     "refSelfHost": "Self-hosted",
     "refDokploy": "Dokploy",
     "refCoolify": "Coolify"

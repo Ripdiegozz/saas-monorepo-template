@@ -2,6 +2,8 @@
 
 Steps to deploy manually on a VPS (Ubuntu, Hetzner, etc.) with Docker CE.
 
+> **All-in-one option**: For SSL (self-signed or Let's Encrypt) and Caddy proxy in one stack, see **[DEPLOY_AIO.md](DEPLOY_AIO.md)**.
+
 ## Requirements
 
 - Docker and Docker Compose installed

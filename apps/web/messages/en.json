@@ -169,6 +169,10 @@
         "title": "NEXT_PUBLIC_API_URL and NEXT_PUBLIC_APP_URL",
         "desc": "Frontend env vars pointing to your API and app domains."
       },
+      "envAioDomains": {
+        "title": "(AIO) APP_DOMAIN, API_DOMAIN, TLS_SELF_SIGNED",
+        "desc": "When using compose.aio: set domains and TLS_SELF_SIGNED=true for self-signed, false for Let's Encrypt."
+      },
       "migrations": {
         "title": "Database migrations applied",
         "desc": "Run pnpm --filter @workspace/db db:push or db:migrate."
@@ -179,7 +183,7 @@
       },
       "sslProxy": {
         "title": "SSL/HTTPS via reverse proxy",
-        "desc": "Caddy, Traefik or Nginx proxying to web (3000) and API (4000)."
+        "desc": "Use compose.aio (Caddy built-in, self-signed or Let's Encrypt) or external Caddy/Traefik/Nginx."
       },
       "polarConfig": {
         "title": "(Optional) Polar billing configured",
@@ -192,6 +196,8 @@
     },
     "referencesTitle": "References",
     "refArchitecture": "Architecture",
+    "refFiles": "File reference",
+    "refAio": "AIO (Caddy + SSL)",
     "refSelfHost": "Self-hosted",
     "refDokploy": "Dokploy",
     "refCoolify": "Coolify"

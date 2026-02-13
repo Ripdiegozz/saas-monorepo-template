@@ -28,10 +28,10 @@ fi
 
 echo "Starting stack (mode: $MODE)..."
 if [ "$MODE" = "aio" ]; then
-  docker compose -f infra/compose/compose.aio.yml up -d
+  docker compose --env-file .env -f infra/compose/compose.aio.yml up -d --build
+  echo "Done. See docs/DEPLOY_AIO.md - UI/API at your configured domains (APP_DOMAIN, API_DOMAIN)"
 else
   docker compose -f infra/compose/compose.noproxy.yml up -d
+  echo "Done. UI: http://localhost:3000  API: http://localhost:4000"
 fi
-
-echo "Done. UI: http://localhost:3000  API: http://localhost:4000"
-echo "Run migrations: pnpm --filter @workspace/db db:migrate"
+[ "$MODE" != "aio" ] && echo "Run migrations: pnpm --filter @workspace/db db:migrate"

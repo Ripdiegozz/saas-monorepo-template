@@ -1,4 +1,6 @@
-# Production-like compose without proxy - for Dokploy/Coolify (proxy handled by platform)
+# Production with embedded Caddy proxy + SSL (self-signed or Let's Encrypt/ACME)
+# Set APP_DOMAIN, API_DOMAIN, TLS_SELF_SIGNED in .env
+# See docs/DEPLOY_SELFHOST.md and docs/DEPLOY_AIO.md
 services:
   postgres:
     image: postgres:16-alpine
@@ -16,14 +18,25 @@ services:
       timeout: 5s
       retries: 5
 
+  migrate:
+    build:
+      context: ../..
+      dockerfile: infra/compose/Dockerfile.migrate
+    env_file: ../../.env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-saas}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
   server:
     build:
       context: ../..
       dockerfile: apps/server/Dockerfile
+    container_name: saas-server
     env_file: ../../.env
     restart: unless-stopped
-    ports:
-      - "4000:4000"
     environment:
       NODE_ENV: production
       PORT: 4000
@@ -31,10 +44,10 @@ services:
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
       BETTER_AUTH_URL: ${BETTER_AUTH_URL}
       BETTER_AUTH_TRUSTED_ORIGINS: ${BETTER_AUTH_TRUSTED_ORIGINS}
-      APP_URL: ${APP_URL:-}
+      APP_URL: ${APP_URL}
     depends_on:
-      postgres:
-        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
 
   web:
     build:
@@ -43,15 +56,37 @@ services:
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
         NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+    container_name: saas-web
     env_file: ../../.env
     restart: unless-stopped
-    ports:
-      - "3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
     depends_on:
       - server
 
+  caddy:
+    build:
+      context: .
+      dockerfile: caddy/Dockerfile
+    container_name: saas-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:-app.localhost}
+      API_DOMAIN: ${API_DOMAIN:-api.localhost}
+      TLS_SELF_SIGNED: ${TLS_SELF_SIGNED:-false}
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+      - server
+
 volumes:
   postgres_data:
+  caddy_data:
+  caddy_config:

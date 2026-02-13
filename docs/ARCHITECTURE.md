@@ -50,7 +50,7 @@ Infrastructure (Drizzle repositories)
 ```
 compose.dev.yml     → development, hot reload (web + server + postgres)
 compose.noproxy    → production, exposed ports (external proxy / Dokploy / Coolify)
-compose.aio        → production with embedded proxy + SSL (future)
+compose.aio        → production with embedded Caddy proxy + SSL (self-signed or Let's Encrypt)
 ```
 
 ## Flow diagram

@@ -22,6 +22,7 @@ const checklistIds = [
   "envAuthSecret",
   "envAuthOrigins",
   "envPublicUrls",
+  "envAioDomains",
   "migrations",
   "superAdmin",
   "sslProxy",
@@ -153,6 +154,24 @@ export default function ProductionChecklistPage() {
               className="text-primary underline hover:no-underline"
             >
               {t("refArchitecture")}
+            </a>
+            <span className="text-muted-foreground">·</span>
+            <a
+              href="https://github.com/Ripdiegozz/saas-monorepo-template/blob/main/docs/FILES.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline hover:no-underline"
+            >
+              {t("refFiles")}
+            </a>
+            <span className="text-muted-foreground">·</span>
+            <a
+              href="https://github.com/Ripdiegozz/saas-monorepo-template/blob/main/docs/DEPLOY_AIO.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline hover:no-underline"
+            >
+              {t("refAio")}
             </a>
             <span className="text-muted-foreground">·</span>
             <a

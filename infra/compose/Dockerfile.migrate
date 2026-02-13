@@ -1,0 +1,7 @@
+# Migration runner - needs drizzle-kit (devDep) and migration files
+FROM node:20-alpine
+RUN corepack enable pnpm
+WORKDIR /app
+COPY . .
+RUN pnpm install --frozen-lockfile
+CMD ["pnpm", "--filter", "@workspace/db", "db:migrate"]

@@ -38,7 +38,9 @@ pnpm dev
 
 ## Production & Self-Hosting
 
-- **[DEPLOY_SELFHOST.md](docs/DEPLOY_SELFHOST.md)** – Docker CE on VPS, environment variables, SSL
+- **[DEPLOY_AIO.md](docs/DEPLOY_AIO.md)** – All-in-one: Caddy + SSL (self-signed or Let's Encrypt), domain configurable
+- **[DEPLOY_SELFHOST.md](docs/DEPLOY_SELFHOST.md)** – Docker CE on VPS, env vars, external proxy (Caddy/Nginx)
+- **[FILES.md](docs/FILES.md)** – File reference for production and AIO
 - **[DEPLOY_DOKPLOY.md](docs/DEPLOY_DOKPLOY.md)** – One-click deploy with Dokploy
 - **[DEPLOY_COOLIFY.md](docs/DEPLOY_COOLIFY.md)** – One-click deploy with Coolify
 - **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** – Multi-tenant model, auth flows, SSE
@@ -47,7 +49,7 @@ pnpm dev
 
 ```bash
 ./scripts/install.sh noproxy   # UI + API + Postgres
-./scripts/install.sh aio       # With proxy and SSL (when compose.aio exists)
+./scripts/install.sh aio       # With Caddy proxy and SSL (self-signed or Let's Encrypt)
 ```
 
 ## Monorepo Structure
