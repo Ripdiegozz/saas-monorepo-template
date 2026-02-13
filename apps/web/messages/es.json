@@ -1,0 +1,307 @@
+{
+  "common": {
+    "appName": "Booking SaaS",
+    "loading": "Cargando…",
+    "redirecting": "Redirigiendo…",
+    "cancel": "Cancelar",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "email": "Email",
+    "password": "Contraseña",
+    "or": "o",
+    "back": "Volver",
+    "backToHome": "Volver al inicio",
+    "view": "Ver",
+    "actions": "Acciones",
+    "slug": "Slug",
+    "min": "min",
+    "comingSoon": "Próximamente",
+    "errorGeneric": "Algo salió mal"
+  },
+  "nav": {
+    "features": "Características",
+    "pricing": "Precios",
+    "documentation": "Documentación",
+    "myDashboard": "Mi Panel",
+    "signIn": "Iniciar sesión",
+    "createAccount": "Crear cuenta",
+    "dashboard": "Dashboard",
+    "services": "Servicios",
+    "team": "Equipo",
+    "calendar": "Calendario",
+    "myOrganization": "Mi organización",
+    "signOut": "Salir"
+  },
+  "home": {
+    "welcomeTitle": "Bienvenido a {appName}",
+    "welcomeDesc": "Es la primera vez. Crea el admin inicial con email y contraseña.",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "email": "Email",
+    "emailPlaceholder": "admin@ejemplo.com",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Mínimo 8 caracteres",
+    "createAdmin": "Crear admin",
+    "creatingAdmin": "Creando admin…",
+    "errorCreateAccount": "Error al crear cuenta",
+    "errorSetup": "Error en el setup",
+    "errorGeneric": "Algo salió mal",
+    "footer": "{appName} · Boilerplate multi-tenant con Polar.sh"
+  },
+  "hero": {
+    "title": "Reserva citas como Calendly o Google Calendar",
+    "subtitle": "Boilerplate SaaS multi-tenant listo para producción. Crea tu negocio, invita empleados, deja que tus clientes reserven en línea.",
+    "cta": "Crear mi negocio",
+    "viewFeatures": "Ver características",
+    "multiTenant": "Multi-tenant",
+    "inviteEmployees": "Invita empleados",
+    "publicBookings": "Reservas públicas"
+  },
+  "features": {
+    "title": "Todo lo que incluye el boilerplate",
+    "subtitle": "Un punto de partida sólido para tu app de reservas",
+    "multiTenant": {
+      "title": "Multi-tenant",
+      "desc": "Cada negocio tiene su propio espacio aislado con datos seguros."
+    },
+    "polar": {
+      "title": "Polar.sh + planes",
+      "desc": "Free, Pro y Enterprise. Facturación lista con límites por plan."
+    },
+    "invitations": {
+      "title": "Invitations por email",
+      "desc": "Invita empleados por correo. Ellos se registran y ven su calendario."
+    },
+    "bookings": {
+      "title": "Reservas públicas",
+      "desc": "Página estilo Calendly para que clientes reserven con email y teléfono."
+    },
+    "roles": {
+      "title": "Roles: Admin y empleado",
+      "desc": "Admin gestiona el negocio. Empleados ven su panel de citas."
+    },
+    "stack": {
+      "title": "Stack moderno",
+      "desc": "Next.js, Hono, Drizzle, Better Auth, monorepo con Turborepo."
+    }
+  },
+  "pricing": {
+    "title": "Planes que escalan con tu negocio",
+    "subtitle": "Free, Pro y Enterprise. Polar.sh para facturación.",
+    "free": {
+      "name": "Free",
+      "price": "$0",
+      "period": "/mes",
+      "businesses": "{count} negocio",
+      "businesses_plural": "{count} negocios",
+      "employees": "{count} empleados",
+      "customers": "{count} clientes registrados",
+      "features": ["1 negocio", "3 empleados", "100 clientes registrados", "Panel admin y empleados"],
+      "cta": "Empezar gratis"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$29",
+      "period": "/mes",
+      "features": ["3 negocios", "15 empleados", "1.000 clientes", "Todo Free + soporte prioritario"],
+      "cta": "Probar Pro"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "Custom",
+      "period": "",
+      "businesses": "Ilimitados",
+      "employees": "Ilimitado",
+      "customers": "Ilimitado",
+      "features": ["Negocios ilimitados", "Empleados ilimitados", "Clientes ilimitados", "SLA y onboarding"],
+      "cta": "Contactar ventas"
+    }
+  },
+  "docs": {
+    "title": "Documentación",
+    "subtitle": "Guías de deploy y referencias del stack",
+    "architecture": {
+      "title": "Arquitectura",
+      "desc": "Visión general del monorepo, multi-tenant y estructura."
+    },
+    "polar": {
+      "title": "Polar.sh",
+      "desc": "Documentación de facturación con Polar."
+    },
+    "betterAuth": {
+      "title": "Better Auth",
+      "desc": "Autenticación, organizations e invitations."
+    },
+    "guides": "Guías y referencias para el boilerplate"
+  },
+  "docsPage": {
+    "title": "Documentación",
+    "subtitle": "Guías y referencias para el boilerplate",
+    "architecture": { "title": "Arquitectura", "desc": "Visión general del monorepo, multi-tenant y estructura." },
+    "deployCoolify": { "title": "Deploy con Coolify", "desc": "Despliega en Coolify paso a paso." },
+    "deployDokploy": { "title": "Deploy con Dokploy", "desc": "Despliega en Dokploy." },
+    "selfHosted": { "title": "Self-hosted", "desc": "Guía para hostear en tu propio servidor." },
+    "polar": { "title": "Polar.sh", "desc": "Documentación de facturación con Polar." },
+    "betterAuth": { "title": "Better Auth", "desc": "Autenticación, organizations e invitations." }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "desc": "Introduce tus credenciales para acceder a tu cuenta",
+      "invalidCredentials": "Email o contraseña inválidos",
+      "signingIn": "Iniciando sesión…",
+      "submit": "Iniciar sesión",
+      "signInGoogle": "Iniciar sesión con Google",
+      "noAccount": "¿No tienes cuenta?",
+      "signUp": "Crear cuenta",
+      "emailPlaceholder": "tu@ejemplo.com"
+    },
+    "signup": {
+      "title": "Crear cuenta",
+      "desc": "Regístrate para empezar con Booking SaaS",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "failed": "Error al crear cuenta",
+      "creating": "Creando cuenta…",
+      "submit": "Crear cuenta",
+      "signUpGoogle": "Registrarse con Google",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "logIn": "Iniciar sesión"
+    },
+    "setup": {
+      "title": "Completar configuración",
+      "desc": "Eres el primer usuario. Completa la configuración para convertirte en super admin y acceder al panel de administración.",
+      "bootstrapFailed": "Error en el setup",
+      "superAdminNote": "Como super admin podrás gestionar organizaciones, usuarios y ajustes de inquilinos.",
+      "settingUp": "Configurando…",
+      "complete": "Completar configuración",
+      "signOut": "Cerrar sesión"
+    }
+  },
+  "onboarding": {
+    "chooseBusiness": "Elige tu negocio",
+    "chooseDesc": "Tienes acceso a estas organizaciones. Selecciona una para continuar.",
+    "createFirst": "Crea tu primer negocio",
+    "createDesc": "Como usuario nuevo, necesitas crear una organización para empezar a recibir reservas.",
+    "errorCreate": "Error al crear organización",
+    "businessName": "Nombre del negocio",
+    "businessPlaceholder": "Mi Peluquería",
+    "slugLabel": "Slug (URL)",
+    "slugPlaceholder": "mi-peluqueria",
+    "slugHint": "Tus clientes reservarán en /b/{slug}",
+    "creating": "Creando…",
+    "createBusiness": "Crear negocio",
+    "backToHome": "Volver al inicio"
+  },
+  "admin": {
+    "title": "Platform Admin",
+    "subtitle": "Administra organizaciones, usuarios y reservas de la plataforma",
+    "dashboardTitle": "Admin Dashboard",
+    "organizations": "Organizaciones",
+    "users": "Usuarios",
+    "bookings": "Reservas",
+    "activityTitle": "Actividad últimos 6 meses",
+    "activityDesc": "Nuevas organizaciones, usuarios y reservas por mes",
+    "allOrgs": "Todas las organizaciones en la plataforma",
+    "noOrgs": "No hay organizaciones aún",
+    "allUsers": "Todos los usuarios registrados. Puedes restablecer contraseñas.",
+    "noUsers": "No hay usuarios aún",
+    "registered": "Registro",
+    "resetPassword": "Restablecer contraseña",
+    "resetPasswordFor": "Nueva contraseña para {name} ({email})",
+    "newPassword": "Nueva contraseña",
+    "passwordPlaceholder": "Mínimo 8 caracteres",
+    "reset": "Restablecer",
+    "errorLoad": "Error al cargar",
+    "errorReset": "Error al restablecer contraseña",
+    "months": {
+      "01": "Ene", "02": "Feb", "03": "Mar", "04": "Abr", "05": "May", "06": "Jun",
+      "07": "Jul", "08": "Ago", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dic"
+    }
+  },
+  "tenant": {
+    "dashboard": {
+      "title": "Dashboard",
+      "manageBookings": "Gestiona tus reservas. Comparte tu enlace de reserva:",
+      "loadingAppointments": "Cargando citas...",
+      "appointments": "Citas",
+      "noAppointments": "No hay citas aún.",
+      "services": "Servicios",
+      "noServices": "No hay servicios. Añade algunos en la página de Servicios.",
+      "manageServices": "Gestionar servicios",
+      "loading": "Cargando...",
+      "orgNotFound": "Organización no encontrada",
+      "statusScheduled": "programada",
+      "statusCanceled": "cancelada"
+    },
+    "services": {
+      "title": "Servicios",
+      "orgNotFound": "Organización no encontrada",
+      "subtitle": "Gestiona tus servicios reservables",
+      "addService": "Añadir servicio",
+      "cancel": "Cancelar",
+      "name": "Nombre",
+      "description": "Descripción (opcional)",
+      "duration": "Duración (minutos)",
+      "creating": "Creando...",
+      "create": "Crear servicio",
+      "loading": "Cargando servicios...",
+      "none": "No hay servicios. Añade uno arriba.",
+      "errorCreate": "Error al crear"
+    },
+    "team": {
+      "title": "Equipo",
+      "loading": "Cargando...",
+      "orgNotFound": "Organización no encontrada",
+      "subtitle": "Invita empleados por correo. Ellos recibirán un enlace para unirse.",
+      "inviteEmployee": "Invitar empleado",
+      "inviteDesc": "El empleado recibirá un correo con el enlace. También puedes copiar el enlace y enviarlo manualmente.",
+      "errorInvite": "Error al invitar",
+      "employeeEmail": "Email del empleado",
+      "emailPlaceholder": "empleado@ejemplo.com",
+      "sending": "Enviando…",
+      "sendInvitation": "Enviar invitación",
+      "inviteLink": "Enlace de invitación",
+      "copied": "Copiado",
+      "copyLink": "Copiar enlace"
+    },
+    "calendar": {
+      "title": "Calendario",
+      "loading": "Cargando...",
+      "orgNotFound": "Organización no encontrada",
+      "subtitle": "Vista mensual de las citas agendadas",
+      "clickToNavigate": "Click en el mes para navegar",
+      "more": "+{count} más",
+      "weekdays": ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+    }
+  },
+  "booking": {
+    "loading": "Cargando…",
+    "notFound": "No encontrado",
+    "confirmed": "¡Reserva confirmada!",
+    "confirmedEmail": "Te hemos enviado un correo de confirmación a {email}",
+    "bookAnother": "Hacer otra reserva",
+    "invalidDateTime": "Fecha u hora inválida",
+    "errorBook": "Error al reservar",
+    "chooseService": "Elige un servicio",
+    "chooseServiceDesc": "Selecciona el servicio que deseas reservar",
+    "noServices": "No hay servicios disponibles",
+    "changeService": "← Cambiar servicio",
+    "formDesc": "Completa tus datos. Email y teléfono son requeridos.",
+    "date": "Fecha",
+    "time": "Hora",
+    "emailRequired": "Email *",
+    "emailPlaceholder": "tu@email.com",
+    "phoneRequired": "Teléfono *",
+    "phonePlaceholder": "+34 612 345 678",
+    "nameOptional": "Nombre (opcional)",
+    "namePlaceholder": "Tu nombre",
+    "booking": "Reservando…",
+    "confirm": "Confirmar reserva"
+  },
+  "invitation": {
+    "processing": "Procesando invitación…",
+    "invalid": "Invitación inválida",
+    "errorAccept": "Error al aceptar la invitación",
+    "redirecting": "Redirigiendo…"
+  }
+}

@@ -1,4 +1,7 @@
-import Link from "next/link"
+"use client"
+
+import { useTranslations } from "next-intl"
+import { Link as I18nLink } from "@/i18n/navigation"
 import { Button } from "@workspace/ui/components/button"
 import {
   Card,
@@ -12,57 +15,65 @@ import { CheckIcon } from "lucide-react"
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"
 
-const plans = [
-  {
-    id: "free",
-    name: "Free",
-    price: "$0",
-    period: "/mes",
-    businesses: 1,
-    employees: "3",
-    customers: "100",
-    features: ["1 negocio", "3 empleados", "100 clientes registrados", "Panel admin y empleados"],
-    cta: "Empezar gratis",
-    href: "/signup",
-    highlighted: false,
-  },
-  {
-    id: "pro",
-    name: "Pro",
-    price: "$29",
-    period: "/mes",
-    businesses: 3,
-    employees: "15",
-    customers: "1.000",
-    features: ["3 negocios", "15 empleados", "1.000 clientes", "Todo Free + soporte prioritario"],
-    cta: "Probar Pro",
-    href: `${apiUrl}/api/billing/checkout`,
-    highlighted: true,
-  },
-  {
-    id: "enterprise",
-    name: "Enterprise",
-    price: "Custom",
-    period: "",
-    businesses: -1,
-    employees: "Ilimitado",
-    customers: "Ilimitado",
-    features: ["Negocios ilimitados", "Empleados ilimitados", "Clientes ilimitados", "SLA y onboarding"],
-    cta: "Contactar ventas",
-    href: "mailto:sales@example.com",
-    highlighted: false,
-  },
-]
-
 export function LandingPricing() {
+  const t = useTranslations("pricing")
+
+  const plans = [
+    {
+      id: "free",
+      name: t("free.name"),
+      price: t("free.price"),
+      period: t("free.period"),
+      features: [
+        t("free.features.0"),
+        t("free.features.1"),
+        t("free.features.2"),
+        t("free.features.3"),
+      ],
+      cta: t("free.cta"),
+      href: "/signup",
+      highlighted: false,
+    },
+    {
+      id: "pro",
+      name: t("pro.name"),
+      price: t("pro.price"),
+      period: t("pro.period"),
+      features: [
+        t("pro.features.0"),
+        t("pro.features.1"),
+        t("pro.features.2"),
+        t("pro.features.3"),
+      ],
+      cta: t("pro.cta"),
+      href: `${apiUrl}/api/billing/checkout`,
+      highlighted: true,
+    },
+    {
+      id: "enterprise",
+      name: t("enterprise.name"),
+      price: t("enterprise.price"),
+      period: t("enterprise.period"),
+      features: [
+        t("enterprise.features.0"),
+        t("enterprise.features.1"),
+        t("enterprise.features.2"),
+        t("enterprise.features.3"),
+      ],
+      cta: t("enterprise.cta"),
+      href: "mailto:sales@example.com",
+      highlighted: false,
+    },
+  ]
+
   return (
     <section id="pricing" className="border-t bg-muted/30 px-4 py-16 md:py-24">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-center text-3xl font-bold md:text-4xl">
-          Planes que escalan con tu negocio
+          {t("title")}
         </h2>
         <p className="text-muted-foreground mt-4 text-center text-lg">
-          Free, Pro y Enterprise. Polar.sh para facturación.
+          {t("subtitle")}
         </p>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {plans.map((plan) => (
@@ -73,13 +84,16 @@ export function LandingPricing() {
               <CardHeader>
                 <CardTitle>{plan.name}</CardTitle>
                 <CardDescription>
-                  {plan.businesses === -1 ? "Ilimitados" : plan.businesses} negocio
-                  {plan.businesses !== 1 ? "s" : ""} · {plan.employees} empleados ·{" "}
-                  {plan.customers} clientes
+                  {plan.id === "free" && "1 business · 3 employees · 100 customers"}
+                  {plan.id === "pro" && "3 businesses · 15 employees · 1,000 customers"}
+                  {plan.id === "enterprise" &&
+                    `${t("enterprise.businesses")} · ${t("enterprise.employees")} · ${t("enterprise.customers")}`}
                 </CardDescription>
                 <p className="mt-2 text-3xl font-bold">
                   {plan.price}
-                  <span className="text-muted-foreground text-sm font-normal">{plan.period}</span>
+                  <span className="text-muted-foreground text-sm font-normal">
+                    {plan.period}
+                  </span>
                 </p>
               </CardHeader>
               <CardContent>
@@ -98,15 +112,27 @@ export function LandingPricing() {
                   variant={plan.highlighted ? "default" : "outline"}
                   asChild
                 >
-                  <Link
-                    href={
-                      plan.id === "pro" && plan.href.includes("billing")
-                        ? `${plan.href}?productId=pro`
-                        : plan.href
-                    }
-                  >
-                    {plan.cta}
-                  </Link>
+                  {plan.href.startsWith("http") || plan.href.startsWith("mailto") ? (
+                    <a
+                      href={
+                        plan.id === "pro" && plan.href.includes("billing")
+                          ? `${plan.href}?productId=pro`
+                          : plan.href
+                      }
+                    >
+                      {plan.cta}
+                    </a>
+                  ) : (
+                    <I18nLink
+                      href={
+                        plan.id === "pro" && plan.href.includes("billing")
+                          ? `${plan.href}?productId=pro`
+                          : plan.href
+                      }
+                    >
+                      {plan.cta}
+                    </I18nLink>
+                  )}
                 </Button>
               </CardFooter>
             </Card>

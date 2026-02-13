@@ -1,0 +1,307 @@
+{
+  "common": {
+    "appName": "Booking SaaS",
+    "loading": "Loading…",
+    "redirecting": "Redirecting…",
+    "cancel": "Cancel",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "password": "Password",
+    "or": "or",
+    "back": "Back",
+    "backToHome": "Back to home",
+    "view": "View",
+    "actions": "Actions",
+    "slug": "Slug",
+    "min": "min",
+    "comingSoon": "Coming soon",
+    "errorGeneric": "Something went wrong"
+  },
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "documentation": "Documentation",
+    "myDashboard": "My Dashboard",
+    "signIn": "Sign in",
+    "createAccount": "Create account",
+    "dashboard": "Dashboard",
+    "services": "Services",
+    "team": "Team",
+    "calendar": "Calendar",
+    "myOrganization": "My organization",
+    "signOut": "Sign out"
+  },
+  "home": {
+    "welcomeTitle": "Welcome to {appName}",
+    "welcomeDesc": "First time. Create the initial admin with email and password.",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "admin@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "Minimum 8 characters",
+    "createAdmin": "Create admin",
+    "creatingAdmin": "Creating admin…",
+    "errorCreateAccount": "Error creating account",
+    "errorSetup": "Setup error",
+    "errorGeneric": "Something went wrong",
+    "footer": "{appName} · Multi-tenant boilerplate with Polar.sh"
+  },
+  "hero": {
+    "title": "Book appointments like Calendly or Google Calendar",
+    "subtitle": "Production-ready multi-tenant SaaS boilerplate. Create your business, invite employees, let clients book online.",
+    "cta": "Create my business",
+    "viewFeatures": "View features",
+    "multiTenant": "Multi-tenant",
+    "inviteEmployees": "Invite employees",
+    "publicBookings": "Public bookings"
+  },
+  "features": {
+    "title": "Everything included in the boilerplate",
+    "subtitle": "A solid starting point for your booking app",
+    "multiTenant": {
+      "title": "Multi-tenant",
+      "desc": "Each business has its own isolated space with secure data."
+    },
+    "polar": {
+      "title": "Polar.sh + plans",
+      "desc": "Free, Pro and Enterprise. Billing ready with plan limits."
+    },
+    "invitations": {
+      "title": "Email invitations",
+      "desc": "Invite employees by email. They register and see their calendar."
+    },
+    "bookings": {
+      "title": "Public bookings",
+      "desc": "Calendly-style page for clients to book with email and phone."
+    },
+    "roles": {
+      "title": "Roles: Admin and employee",
+      "desc": "Admin manages the business. Employees see their appointment panel."
+    },
+    "stack": {
+      "title": "Modern stack",
+      "desc": "Next.js, Hono, Drizzle, Better Auth, monorepo with Turborepo."
+    }
+  },
+  "pricing": {
+    "title": "Plans that scale with your business",
+    "subtitle": "Free, Pro and Enterprise. Polar.sh for billing.",
+    "free": {
+      "name": "Free",
+      "price": "$0",
+      "period": "/month",
+      "businesses": "{count} business",
+      "businesses_plural": "{count} businesses",
+      "employees": "{count} employees",
+      "customers": "{count} registered customers",
+      "features": ["1 business", "3 employees", "100 registered customers", "Admin and employee panel"],
+      "cta": "Start free"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$29",
+      "period": "/month",
+      "features": ["3 businesses", "15 employees", "1,000 customers", "All Free + priority support"],
+      "cta": "Try Pro"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "Custom",
+      "period": "",
+      "businesses": "Unlimited",
+      "employees": "Unlimited",
+      "customers": "Unlimited",
+      "features": ["Unlimited businesses", "Unlimited employees", "Unlimited customers", "SLA and onboarding"],
+      "cta": "Contact sales"
+    }
+  },
+  "docs": {
+    "title": "Documentation",
+    "subtitle": "Deploy guides and stack references",
+    "architecture": {
+      "title": "Architecture",
+      "desc": "Overview of the monorepo, multi-tenant model and structure."
+    },
+    "polar": {
+      "title": "Polar.sh",
+      "desc": "Billing documentation with Polar."
+    },
+    "betterAuth": {
+      "title": "Better Auth",
+      "desc": "Authentication, organizations and invitations."
+    },
+    "guides": "Guides and references for the boilerplate"
+  },
+  "docsPage": {
+    "title": "Documentation",
+    "subtitle": "Guides and references for the boilerplate",
+    "architecture": { "title": "Architecture", "desc": "Overview of the monorepo, multi-tenant model and structure." },
+    "deployCoolify": { "title": "Deploy with Coolify", "desc": "Deploy to Coolify step by step." },
+    "deployDokploy": { "title": "Deploy with Dokploy", "desc": "Deploy to Dokploy." },
+    "selfHosted": { "title": "Self-hosted", "desc": "Guide for hosting on your own server." },
+    "polar": { "title": "Polar.sh", "desc": "Billing documentation with Polar." },
+    "betterAuth": { "title": "Better Auth", "desc": "Authentication, organizations and invitations." }
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "desc": "Enter your credentials to access your account",
+      "invalidCredentials": "Invalid email or password",
+      "signingIn": "Signing in…",
+      "submit": "Sign in",
+      "signInGoogle": "Sign in with Google",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "emailPlaceholder": "you@example.com"
+    },
+    "signup": {
+      "title": "Create account",
+      "desc": "Sign up to get started with Booking SaaS",
+      "emailPlaceholder": "you@example.com",
+      "failed": "Failed to create account",
+      "creating": "Creating account…",
+      "submit": "Create account",
+      "signUpGoogle": "Sign up with Google",
+      "hasAccount": "Already have an account?",
+      "logIn": "Log in"
+    },
+    "setup": {
+      "title": "Complete setup",
+      "desc": "You're the first user. Complete setup to become the super admin and access the admin panel.",
+      "bootstrapFailed": "Bootstrap failed",
+      "superAdminNote": "As super admin you'll be able to manage organizations, users, and tenant settings.",
+      "settingUp": "Setting up…",
+      "complete": "Complete setup",
+      "signOut": "Sign out"
+    }
+  },
+  "onboarding": {
+    "chooseBusiness": "Choose your business",
+    "chooseDesc": "You have access to these organizations. Select one to continue.",
+    "createFirst": "Create your first business",
+    "createDesc": "As a new user, you need to create an organization to start receiving bookings.",
+    "errorCreate": "Error creating organization",
+    "businessName": "Business name",
+    "businessPlaceholder": "My Business",
+    "slugLabel": "Slug (URL)",
+    "slugPlaceholder": "my-business",
+    "slugHint": "Your clients will book at /b/{slug}",
+    "creating": "Creating…",
+    "createBusiness": "Create business",
+    "backToHome": "Back to home"
+  },
+  "admin": {
+    "title": "Platform Admin",
+    "subtitle": "Manage organizations, users, and platform bookings",
+    "dashboardTitle": "Admin Dashboard",
+    "organizations": "Organizations",
+    "users": "Users",
+    "bookings": "Bookings",
+    "activityTitle": "Activity last 6 months",
+    "activityDesc": "New organizations, users, and bookings per month",
+    "allOrgs": "All organizations on the platform",
+    "noOrgs": "No organizations yet",
+    "allUsers": "All registered users. You can reset passwords.",
+    "noUsers": "No users yet",
+    "registered": "Registered",
+    "resetPassword": "Reset password",
+    "resetPasswordFor": "New password for {name} ({email})",
+    "newPassword": "New password",
+    "passwordPlaceholder": "Minimum 8 characters",
+    "reset": "Reset",
+    "errorLoad": "Error loading",
+    "errorReset": "Error resetting password",
+    "months": {
+      "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun",
+      "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"
+    }
+  },
+  "tenant": {
+    "dashboard": {
+      "title": "Dashboard",
+      "manageBookings": "Manage your bookings. Share your booking link:",
+      "loadingAppointments": "Loading appointments...",
+      "appointments": "Appointments",
+      "noAppointments": "No appointments yet.",
+      "services": "Services",
+      "noServices": "No services. Add some in the Services page.",
+      "manageServices": "Manage Services",
+      "loading": "Loading...",
+      "orgNotFound": "Organization not found",
+      "statusScheduled": "scheduled",
+      "statusCanceled": "canceled"
+    },
+    "services": {
+      "title": "Services",
+      "orgNotFound": "Organization not found",
+      "subtitle": "Manage your bookable services",
+      "addService": "Add Service",
+      "cancel": "Cancel",
+      "name": "Name",
+      "description": "Description (optional)",
+      "duration": "Duration (minutes)",
+      "creating": "Creating...",
+      "create": "Create Service",
+      "loading": "Loading services...",
+      "none": "No services yet. Add one above.",
+      "errorCreate": "Failed to create"
+    },
+    "team": {
+      "title": "Team",
+      "loading": "Loading...",
+      "orgNotFound": "Organization not found",
+      "subtitle": "Invite employees by email. They will receive a link to join.",
+      "inviteEmployee": "Invite employee",
+      "inviteDesc": "The employee will receive an email with the link. You can also copy the link and send it manually.",
+      "errorInvite": "Error inviting",
+      "employeeEmail": "Employee email",
+      "emailPlaceholder": "employee@example.com",
+      "sending": "Sending…",
+      "sendInvitation": "Send invitation",
+      "inviteLink": "Invitation link",
+      "copied": "Copied",
+      "copyLink": "Copy link"
+    },
+    "calendar": {
+      "title": "Calendar",
+      "loading": "Loading...",
+      "orgNotFound": "Organization not found",
+      "subtitle": "Monthly view of scheduled appointments",
+      "clickToNavigate": "Click on month to navigate",
+      "more": "+{count} more",
+      "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    }
+  },
+  "booking": {
+    "loading": "Loading…",
+    "notFound": "Not found",
+    "confirmed": "Booking confirmed!",
+    "confirmedEmail": "We've sent a confirmation email to {email}",
+    "bookAnother": "Book another",
+    "invalidDateTime": "Invalid date or time",
+    "errorBook": "Error booking",
+    "chooseService": "Choose a service",
+    "chooseServiceDesc": "Select the service you want to book",
+    "noServices": "No services available",
+    "changeService": "← Change service",
+    "formDesc": "Fill in your details. Email and phone are required.",
+    "date": "Date",
+    "time": "Time",
+    "emailRequired": "Email *",
+    "emailPlaceholder": "you@email.com",
+    "phoneRequired": "Phone *",
+    "phonePlaceholder": "+1 234 567 890",
+    "nameOptional": "Name (optional)",
+    "namePlaceholder": "Your name",
+    "booking": "Booking…",
+    "confirm": "Confirm booking"
+  },
+  "invitation": {
+    "processing": "Processing invitation…",
+    "invalid": "Invalid invitation",
+    "errorAccept": "Error accepting invitation",
+    "redirecting": "Redirecting…"
+  }
+}

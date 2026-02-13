@@ -1,4 +1,7 @@
-import Link from "next/link"
+"use client"
+
+import { useTranslations } from "next-intl"
+import { Link } from "@/i18n/navigation"
 import {
   Card,
   CardContent,
@@ -8,53 +11,61 @@ import {
 } from "@workspace/ui/components/card"
 import { ExternalLinkIcon } from "lucide-react"
 
-const docs = [
+const docsConfig = [
   {
-    title: "Arquitectura",
-    description: "Visión general del monorepo, multi-tenant y estructura.",
+    key: "architecture",
     href: "/docs",
     external: false,
   },
   {
-    title: "Polar.sh",
-    description: "Documentación de facturación con Polar.",
+    key: "polar",
     href: "https://polar.sh/docs",
     external: true,
   },
   {
-    title: "Better Auth",
-    description: "Autenticación, organizations e invitations.",
+    key: "betterAuth",
     href: "https://www.better-auth.com/docs",
     external: true,
   },
-]
+] as const
 
 export function LandingDocs() {
+  const t = useTranslations("docs")
+
   return (
     <section id="docs" className="px-4 py-16 md:py-24">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-center text-3xl font-bold md:text-4xl">
-          Documentación
+          {t("title")}
         </h2>
         <p className="text-muted-foreground mt-4 text-center text-lg">
-          Guías de deploy y referencias del stack
+          {t("subtitle")}
         </p>
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {docs.map((doc) => (
-            <Link key={doc.title} href={doc.href} target={doc.external ? "_blank" : undefined}>
+          {docsConfig.map(({ key, href, external }) => {
+            const card = (
               <Card className="h-full transition-shadow hover:shadow-md">
                 <CardHeader className="pb-2">
                   <CardTitle className="flex items-center gap-2 text-base">
-                    {doc.title}
-                    {doc.external && <ExternalLinkIcon className="size-4" />}
+                    {t(`${key}.title`)}
+                    {external && <ExternalLinkIcon className="size-4" />}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>{doc.description}</CardDescription>
+                  <CardDescription>{t(`${key}.desc`)}</CardDescription>
                 </CardContent>
               </Card>
-            </Link>
-          ))}
+            )
+            return external ? (
+              <a key={key} href={href} target="_blank" rel="noopener noreferrer">
+                {card}
+              </a>
+            ) : (
+              <Link key={key} href={href}>
+                {card}
+              </Link>
+            )
+          })}
         </div>
       </div>
     </section>
