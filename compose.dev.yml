@@ -48,6 +48,8 @@ services:
     command: sh -c "corepack enable pnpm && pnpm install --config.confirmModulesPurge=false && pnpm --filter server dev"
     ports:
       - "4000:4000"
+    env_file:
+      - .env
     environment:
       CI: "1"
       COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"

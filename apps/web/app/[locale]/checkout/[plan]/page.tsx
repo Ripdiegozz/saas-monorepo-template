@@ -62,8 +62,12 @@ export default function CheckoutPlanPage() {
           slug: "pro",
           referenceId: organizationId,
         })
-        if ((result as { error?: { message?: string } })?.error) {
-          throw new Error((result as { error: { message?: string } }).error.message)
+        const res = result as { error?: { code?: string; message?: string }; code?: string; message?: string }
+        const err = res.error ?? (res.code ? { code: res.code, message: res.message } : null)
+        if (err) {
+          const e = new Error(err.message ?? "Checkout failed") as Error & { code?: string }
+          e.code = err.code
+          throw e
         }
         setStatus("loading")
       } else {
@@ -71,14 +75,16 @@ export default function CheckoutPlanPage() {
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : tCommon("errorGeneric")
+      const code = err instanceof Error && "code" in err ? (err as { code?: string }).code : null
       const isBillingDisabled =
         typeof msg === "string" &&
         (msg.toLowerCase().includes("billing") ||
           msg.toLowerCase().includes("not configured") ||
           msg.toLowerCase().includes("polar") ||
           msg.includes("503"))
+      const isCheckoutFailed = code === "CHECKOUT_CREATION_FAILED" || msg.toLowerCase().includes("checkout creation failed")
       setError(
-        isBillingDisabled ? t("billingNotConfigured") : msg
+        isBillingDisabled ? t("billingNotConfigured") : isCheckoutFailed ? t("checkoutCreationFailed") : msg
       )
       setStatus("error")
     }
@@ -104,19 +110,25 @@ export default function CheckoutPlanPage() {
           slug: "pro",
           referenceId: org.id,
         })
-        if ((checkoutResult as { error?: { message?: string } })?.error) {
-          throw new Error((checkoutResult as { error: { message?: string } }).error.message)
+        const res = checkoutResult as { error?: { code?: string; message?: string }; code?: string; message?: string }
+        const err = res.error ?? (res.code ? { code: res.code, message: res.message } : null)
+        if (err) {
+          const e = new Error(err.message ?? "Checkout failed") as Error & { code?: string }
+          e.code = err.code
+          throw e
         }
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : tCommon("errorGeneric")
+      const code = err instanceof Error && "code" in err ? (err as { code?: string }).code : null
       const isBillingDisabled =
         typeof msg === "string" &&
         (msg.toLowerCase().includes("billing") ||
           msg.toLowerCase().includes("not configured") ||
           msg.toLowerCase().includes("polar") ||
           msg.includes("503"))
-      setError(isBillingDisabled ? t("billingNotConfigured") : msg)
+      const isCheckoutFailed = code === "CHECKOUT_CREATION_FAILED" || msg.toLowerCase().includes("checkout creation failed")
+      setError(isBillingDisabled ? t("billingNotConfigured") : isCheckoutFailed ? t("checkoutCreationFailed") : msg)
     } finally {
       setCreating(false)
     }

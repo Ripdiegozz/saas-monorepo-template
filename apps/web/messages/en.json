@@ -408,7 +408,8 @@
     "continueToPayment": "Continue to payment",
     "slugPreview": "URL: /b/{slug}",
     "invalidChars": "Special characters not allowed: {chars}",
-    "billingNotConfigured": "Billing (Polar) is not configured for this environment. Set POLAR_ACCESS_TOKEN, POLAR_PRODUCT_ID_PRO, and billing URLs in the server .env."
+    "billingNotConfigured": "Billing (Polar) is not configured for this environment. Set POLAR_ACCESS_TOKEN, POLAR_PRODUCT_ID_PRO, and billing URLs in the server .env.",
+    "checkoutCreationFailed": "Checkout creation failed. Ensure POLAR_SERVER matches your token and product (sandbox vs production), and the product exists in your Polar org. Create the product at sandbox.polar.sh when using POLAR_SERVER=sandbox."
   },
   "invitation": {
     "processing": "Processing invitation…",
