@@ -48,7 +48,7 @@ export default function SetupPage() {
 
   async function handleSignOut() {
     await authClient.signOut()
-    router.push("/login")
+    router.push("/")
   }
 
   if (isPending || !session) {
