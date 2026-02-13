@@ -9,6 +9,7 @@ import {
   CalendarIcon,
   LayoutDashboardIcon,
   Settings2Icon,
+  UserIcon,
   UsersIcon,
 } from "lucide-react"
 
@@ -30,6 +31,7 @@ export function TenantNav() {
     { href: `${base}/services`, key: "services", icon: Settings2Icon },
     { href: `${base}/team`, key: "team", icon: UsersIcon },
     { href: `${base}/calendar`, key: "calendar", icon: CalendarIcon },
+    { href: `${base}/profile`, key: "profile", icon: UserIcon },
   ]
 
   return (

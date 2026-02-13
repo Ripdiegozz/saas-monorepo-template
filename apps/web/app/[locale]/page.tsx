@@ -21,6 +21,7 @@ import {
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
+import { Loader2Icon } from "lucide-react"
 
 export default function HomePage() {
   const t = useTranslations("home")
@@ -57,6 +58,7 @@ export default function HomePage() {
 
   async function handleCreateFirstAdmin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (welcomeLoading) return
     const form = e.currentTarget
     const name = (form.elements.namedItem("name") as HTMLInputElement).value
     const email = (form.elements.namedItem("email") as HTMLInputElement).value
@@ -162,7 +164,14 @@ export default function HomePage() {
               </CardContent>
               <CardFooter>
                 <Button type="submit" className="w-full" disabled={welcomeLoading}>
-                  {welcomeLoading ? t("creatingAdmin") : t("createAdmin")}
+                  {welcomeLoading ? (
+                    <>
+                      <Loader2Icon className="mr-2 size-4 animate-spin" />
+                      {t("creatingAdmin")}
+                    </>
+                  ) : (
+                    t("createAdmin")
+                  )}
                 </Button>
               </CardFooter>
             </form>

@@ -19,6 +19,12 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card"
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@workspace/ui/components/dialog"
+import {
   ChevronLeftIcon,
   ChevronRightIcon,
   Loader2Icon,
@@ -65,6 +71,7 @@ export default function CalendarPage() {
   const [services, setServices] = useState<Service[]>([])
   const [loading, setLoading] = useState(true)
   const [viewDate, setViewDate] = useState(() => new Date())
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
 
   const weekdays = t.raw("weekdays") as string[]
 
@@ -177,16 +184,18 @@ export default function CalendarPage() {
                             minute: "2-digit",
                           })
                           return (
-                            <div
+                            <button
                               key={apt.id}
-                              className="truncate rounded bg-primary/15 px-1.5 py-0.5 text-xs"
+                              type="button"
+                              onClick={() => setSelectedAppointment(apt)}
+                              className="w-full truncate rounded bg-primary/15 px-1.5 py-0.5 text-left text-xs transition-colors hover:bg-primary/25 focus:outline-none focus:ring-2 focus:ring-ring"
                               title={`${time} – ${apt.customerEmail} – ${svc?.name ?? apt.serviceId}`}
                             >
                               <span className="font-medium">{time}</span>
                               <span className="text-muted-foreground ml-1">
                                 {apt.customerName ?? apt.customerEmail}
                               </span>
-                            </div>
+                            </button>
                           )
                         })}
                         {apts.length > 3 && (
@@ -203,6 +212,68 @@ export default function CalendarPage() {
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={!!selectedAppointment} onOpenChange={(o) => !o && setSelectedAppointment(null)}>
+        <DialogContent>
+          {selectedAppointment && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{t("appointmentDetail")}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 text-sm">
+                <div>
+                  <span className="text-muted-foreground font-medium">{t("customer")}</span>
+                  <p className="mt-1">
+                    {selectedAppointment.customerName ?? "—"}
+                    <br />
+                    <a
+                      href={`mailto:${selectedAppointment.customerEmail}`}
+                      className="text-primary hover:underline"
+                    >
+                      {selectedAppointment.customerEmail}
+                    </a>
+                    {selectedAppointment.customerPhone && (
+                      <>
+                        <br />
+                        <a
+                          href={`tel:${selectedAppointment.customerPhone}`}
+                          className="text-primary hover:underline"
+                        >
+                          {selectedAppointment.customerPhone}
+                        </a>
+                      </>
+                    )}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground font-medium">{t("service")}</span>
+                  <p className="mt-1">
+                    {serviceMap.get(selectedAppointment.serviceId)?.name ?? selectedAppointment.serviceId}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground font-medium">{t("dateTime")}</span>
+                  <p className="mt-1">
+                    {new Date(selectedAppointment.startAt).toLocaleString(locale, {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}{" "}
+                    –{" "}
+                    {new Date(selectedAppointment.endAt).toLocaleTimeString(locale, {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground font-medium">{t("status")}</span>
+                  <p className="mt-1 capitalize">{selectedAppointment.status}</p>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

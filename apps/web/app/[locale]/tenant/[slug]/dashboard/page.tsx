@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import { useTenant } from "@/components/tenant-provider"
 import { TenantNav } from "@/components/tenant-nav"
 import {
@@ -12,13 +12,33 @@ import {
 } from "@/lib/api-client"
 import { Button } from "@workspace/ui/components/button"
 import { Link } from "@/i18n/navigation"
+import {
+  Card,
+  CardContent,
+} from "@workspace/ui/components/card"
+import { CopyIcon, CheckIcon, LinkIcon } from "lucide-react"
 
 export default function DashboardPage() {
   const t = useTranslations("tenant.dashboard")
+  const locale = useLocale()
   const { organizationId, organization, isLoading, error } = useTenant()
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [services, setServices] = useState<Service[]>([])
   const [loading, setLoading] = useState(true)
+  const [bookingLinkCopied, setBookingLinkCopied] = useState(false)
+
+  const bookingUrl =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/${locale}/b/${organization?.slug ?? ""}`
+      : ""
+
+  const copyBookingLink = () => {
+    if (!bookingUrl || !organization) return
+    void navigator.clipboard.writeText(bookingUrl).then(() => {
+      setBookingLinkCopied(true)
+      setTimeout(() => setBookingLinkCopied(false), 2000)
+    })
+  }
 
   useEffect(() => {
     if (!organizationId) return
@@ -46,17 +66,42 @@ export default function DashboardPage() {
         <h1 className="text-2xl font-bold">{organization.name} – {t("title")}</h1>
         <TenantNav />
       </div>
-      <p className="text-muted-foreground mb-6">
-        {t("manageBookings")}{" "}
-        <a
-          href={`/b/${organization.slug}`}
-          className="text-primary underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          /b/{organization.slug}
-        </a>
-      </p>
+      <Card className="mb-6">
+        <CardContent className="pt-6">
+          <p className="text-muted-foreground mb-3">{t("manageBookings")}</p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <div className="flex min-w-0 flex-1 items-center gap-2 rounded-md border bg-muted/30 px-3 py-2">
+              <LinkIcon className="size-4 shrink-0 text-muted-foreground" />
+              <a
+                href={`/b/${organization.slug}`}
+                className="truncate text-primary underline hover:no-underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {bookingUrl || `/${locale}/b/${organization.slug}`}
+              </a>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={copyBookingLink}
+              className="shrink-0"
+            >
+              {bookingLinkCopied ? (
+                <>
+                  <CheckIcon className="mr-2 size-4 text-green-600" />
+                  {t("copied")}
+                </>
+              ) : (
+                <>
+                  <CopyIcon className="mr-2 size-4" />
+                  {t("copyLink")}
+                </>
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {loading ? (
         <p>{t("loadingAppointments")}</p>

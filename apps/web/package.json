@@ -8,10 +8,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint:fix": "eslint --fix .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@tanstack/react-form": "^1.28.0",
     "@workspace/ui": "workspace:*",
     "recharts": "^3.7.0",
     "better-auth": "^1.0.0",

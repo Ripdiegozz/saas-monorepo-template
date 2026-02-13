@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card"
+import { Loader2Icon } from "lucide-react"
 
 export default function SetupPage() {
   const t = useTranslations("auth.setup")
@@ -28,6 +29,7 @@ export default function SetupPage() {
   }, [session, isPending, router])
 
   async function handleBootstrap() {
+    if (loading) return
     setError(null)
     setLoading(true)
     try {
@@ -74,7 +76,14 @@ export default function SetupPage() {
             className="w-full"
             disabled={loading}
           >
-            {loading ? t("settingUp") : t("complete")}
+            {loading ? (
+              <>
+                <Loader2Icon className="mr-2 size-4 animate-spin" />
+                {t("settingUp")}
+              </>
+            ) : (
+              t("complete")
+            )}
           </Button>
           <Button variant="ghost" onClick={handleSignOut} className="w-full">
             {t("signOut")}

@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useTranslations, useLocale } from "next-intl"
+import { useEffect, useRef, useState } from "react"
+import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 import {
@@ -19,27 +19,65 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card"
-import { CalendarDaysIcon, CheckCircleIcon } from "lucide-react"
+import { isValidEmail } from "@/lib/validation"
+import { useForm } from "@tanstack/react-form"
+import { CalendarDaysIcon, CheckCircleIcon, Loader2Icon } from "lucide-react"
+
+function isValidPhone(s: string): boolean {
+  return s.replace(/\D/g, "").length >= 6
+}
 
 export default function PublicBookingPage() {
   const t = useTranslations("booking")
   const tCommon = useTranslations("common")
   const params = useParams()
   const slug = params.slug as string
-  const locale = useLocale()
   const [org, setOrg] = useState<{ id: string; name: string; slug: string } | null>(null)
   const [services, setServices] = useState<{ id: string; name: string; durationMinutes: number }[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [step, setStep] = useState<"service" | "form" | "done">("service")
   const [selectedService, setSelectedService] = useState<{ id: string; name: string; durationMinutes: number } | null>(null)
-  const [date, setDate] = useState("")
-  const [time, setTime] = useState("")
-  const [email, setEmail] = useState("")
-  const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
-  const [submitting, setSubmitting] = useState(false)
+  const [submittedEmail, setSubmittedEmail] = useState("")
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const submitInProgressRef = useRef(false)
+
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      date: "",
+      time: "",
+    },
+    onSubmit: async ({ value }) => {
+      if (submitInProgressRef.current) return
+      if (!org || !selectedService) return
+      submitInProgressRef.current = true
+      setSubmitError(null)
+      const startAt = new Date(`${value.date}T${value.time}`)
+      if (isNaN(startAt.getTime())) {
+        setSubmitError(t("invalidDateTime"))
+        return
+      }
+      try {
+        await createAppointment(org.id, {
+          serviceId: selectedService.id,
+          startAt: startAt.toISOString(),
+          customerEmail: value.email,
+          customerName: value.name,
+          customerPhone: value.phone,
+        })
+        setSubmittedEmail(value.email)
+        setStep("done")
+      } catch (e) {
+        setSubmitError(e instanceof Error ? e.message : t("errorBook"))
+        throw e
+      } finally {
+        submitInProgressRef.current = false
+      }
+    },
+  })
 
   useEffect(() => {
     if (!slug) return
@@ -56,32 +94,6 @@ export default function PublicBookingPage() {
   const handleSelectService = (s: { id: string; name: string; durationMinutes: number }) => {
     setSelectedService(s)
     setStep("form")
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!org || !selectedService || !date || !time) return
-    const startAt = new Date(`${date}T${time}`)
-    if (isNaN(startAt.getTime())) {
-      setSubmitError(t("invalidDateTime"))
-      return
-    }
-    setSubmitting(true)
-    setSubmitError(null)
-    try {
-      await createAppointment(org.id, {
-        serviceId: selectedService.id,
-        startAt: startAt.toISOString(),
-        customerEmail: email,
-        customerName: name || undefined,
-        customerPhone: phone,
-      })
-      setStep("done")
-    } catch (e) {
-      setSubmitError(e instanceof Error ? e.message : t("errorBook"))
-    } finally {
-      setSubmitting(false)
-    }
   }
 
   if (loading || !slug) {
@@ -112,7 +124,7 @@ export default function PublicBookingPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold">{t("confirmed")}</h1>
           <p className="text-muted-foreground mt-2">
-            {t("confirmedEmail", { email })}
+            {t("confirmedEmail", { email: submittedEmail })}
           </p>
         </div>
         <Button asChild>
@@ -178,68 +190,173 @@ export default function PublicBookingPage() {
               <CardDescription>{t("formDesc")}</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  if (submitInProgressRef.current) return
+                  form.handleSubmit()
+                }}
+                className="space-y-4"
+              >
                 {submitError && (
                   <p className="text-destructive text-sm">{submitError}</p>
                 )}
+                <form.Field
+                  name="name"
+                  validators={{
+                    onChange: ({ value }) =>
+                      !value?.trim() ? tCommon("fieldRequired") : undefined,
+                  }}
+                >
+                  {(field) => (
+                    <div className="space-y-2">
+                      <Label htmlFor="name">{t("nameRequired")}</Label>
+                      <Input
+                        id="name"
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder={t("namePlaceholder")}
+                        aria-invalid={!!field.state.meta.errors?.length}
+                      />
+                      {field.state.meta.errors?.[0] && (
+                        <p className="text-destructive text-xs">
+                          {field.state.meta.errors[0]}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </form.Field>
+                <form.Field
+                  name="email"
+                    validators={{
+                    onChange: ({ value }) => {
+                      if (!value?.trim()) return tCommon("fieldRequired")
+                      if (!isValidEmail(value)) return t("invalidEmail")
+                      return undefined
+                    },
+                  }}
+                >
+                  {(field) => (
+                    <div className="space-y-2">
+                      <Label htmlFor="email">{t("emailRequired")}</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder={t("emailPlaceholder")}
+                        aria-invalid={!!field.state.meta.errors?.length}
+                      />
+                      {field.state.meta.errors?.[0] && (
+                        <p className="text-destructive text-xs">
+                          {field.state.meta.errors[0]}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </form.Field>
+                <form.Field
+                  name="phone"
+                    validators={{
+                    onChange: ({ value }) => {
+                      if (!value?.trim()) return tCommon("fieldRequired")
+                      if (!isValidPhone(value)) return t("invalidPhone")
+                      return undefined
+                    },
+                  }}
+                >
+                  {(field) => (
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">{t("phoneRequired")}</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder={t("phonePlaceholder")}
+                        aria-invalid={!!field.state.meta.errors?.length}
+                      />
+                      {field.state.meta.errors?.[0] && (
+                        <p className="text-destructive text-xs">
+                          {field.state.meta.errors[0]}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </form.Field>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="date">{t("date")}</Label>
-                    <Input
-                      id="date"
-                      type="date"
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                      min={new Date().toISOString().slice(0, 10)}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="time">{t("time")}</Label>
-                    <Input
-                      id="time"
-                      type="time"
-                      value={time}
-                      onChange={(e) => setTime(e.target.value)}
-                      required
-                    />
-                  </div>
+                  <form.Field
+                    name="date"
+                    validators={{
+                      onChange: ({ value }) =>
+                        !value?.trim() ? tCommon("fieldRequired") : undefined,
+                    }}
+                  >
+                    {(field) => (
+                      <div className="space-y-2">
+                        <Label htmlFor="date">{t("date")}</Label>
+                        <Input
+                          id="date"
+                          type="date"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          min={new Date().toISOString().slice(0, 10)}
+                          aria-invalid={!!field.state.meta.errors?.length}
+                        />
+                        {field.state.meta.errors?.[0] && (
+                          <p className="text-destructive text-xs">
+                            {field.state.meta.errors[0]}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </form.Field>
+                  <form.Field
+                    name="time"
+                    validators={{
+                      onChange: ({ value }) =>
+                        !value?.trim() ? tCommon("fieldRequired") : undefined,
+                    }}
+                  >
+                    {(field) => (
+                      <div className="space-y-2">
+                        <Label htmlFor="time">{t("time")}</Label>
+                        <Input
+                          id="time"
+                          type="time"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          aria-invalid={!!field.state.meta.errors?.length}
+                        />
+                        {field.state.meta.errors?.[0] && (
+                          <p className="text-destructive text-xs">
+                            {field.state.meta.errors[0]}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </form.Field>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">{t("emailRequired")}</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={t("emailPlaceholder")}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">{t("phoneRequired")}</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder={t("phonePlaceholder")}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="name">{t("nameOptional")}</Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder={t("namePlaceholder")}
-                  />
-                </div>
-                <Button type="submit" className="w-full" disabled={submitting}>
-                  {submitting ? t("booking") : t("confirm")}
-                </Button>
+                <form.Subscribe
+                  selector={(state) => [state.canSubmit, state.isSubmitting]}
+                >
+                  {([canSubmit, isSubmitting]) => (
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={!canSubmit || isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2Icon className="mr-2 size-4 animate-spin" />
+                          {t("booking")}
+                        </>
+                      ) : (
+                        t("confirm")
+                      )}
+                    </Button>
+                  )}
+                </form.Subscribe>
               </form>
             </CardContent>
           </Card>

@@ -159,6 +159,37 @@ export type Organization = {
   slug: string;
 };
 
+export type Profile = {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    image: string | null;
+  };
+  member: {
+    role: string;
+    isOwner: boolean;
+  };
+  organization: {
+    id: string;
+    name: string;
+    slug: string;
+    createdAt: string;
+  };
+  subscription: {
+    plan: string;
+    status: string;
+    currentPeriodEnd: string | null;
+  } | null;
+};
+
+export async function getProfile(organizationId: string): Promise<Profile> {
+  return apiGet<Profile>("/api/profile", {
+    organizationId,
+    credentials: "include",
+  });
+}
+
 export async function getOrganizationBySlug(
   slug: string
 ): Promise<Organization> {

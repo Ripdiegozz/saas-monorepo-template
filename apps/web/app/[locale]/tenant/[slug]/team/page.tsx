@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card"
-import { UserPlusIcon, CopyIcon, CheckIcon } from "lucide-react"
+import { UserPlusIcon, CopyIcon, CheckIcon, Loader2Icon } from "lucide-react"
 
 export default function TeamPage() {
   const t = useTranslations("tenant.team")
@@ -28,6 +28,7 @@ export default function TeamPage() {
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (inviting) return
     if (!organizationId || !email.trim()) return
     setInviting(true)
     setInviteError(null)
@@ -105,22 +106,45 @@ export default function TeamPage() {
               />
             </div>
             <Button type="submit" disabled={inviting}>
-              {inviting ? t("sending") : t("sendInvitation")}
+              {inviting ? (
+                <>
+                  <Loader2Icon className="mr-2 size-4 animate-spin" />
+                  {t("sending")}
+                </>
+              ) : (
+                t("sendInvitation")
+              )}
             </Button>
           </form>
 
           {inviteLink && (
-            <div className="rounded-lg border bg-muted/50 p-4 space-y-2">
+            <div className="rounded-lg border bg-muted/50 p-4 space-y-3">
               <p className="text-sm font-medium">{t("inviteLink")}</p>
-              <p className="text-muted-foreground break-all text-xs">{inviteLink}</p>
-              <Button variant="outline" size="sm" onClick={copyLink}>
-                {copied ? (
-                  <CheckIcon className="mr-2 size-4" />
-                ) : (
-                  <CopyIcon className="mr-2 size-4" />
-                )}
-                {copied ? t("copied") : t("copyLink")}
-              </Button>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                <div className="min-w-0 flex-1 rounded-md border bg-background px-3 py-2">
+                  <p className="break-all text-muted-foreground text-xs">
+                    {inviteLink}
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={copyLink}
+                  className="shrink-0"
+                >
+                  {copied ? (
+                    <>
+                      <CheckIcon className="mr-2 size-4 text-green-600" />
+                      {t("copied")}
+                    </>
+                  ) : (
+                    <>
+                      <CopyIcon className="mr-2 size-4" />
+                      {t("copyLink")}
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
           )}
         </CardContent>

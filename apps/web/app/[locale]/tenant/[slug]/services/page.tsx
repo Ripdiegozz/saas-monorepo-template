@@ -10,6 +10,7 @@ import {
   type Service,
 } from "@/lib/api-client"
 import { Button } from "@workspace/ui/components/button"
+import { Loader2Icon } from "lucide-react"
 
 export default function ServicesPage() {
   const t = useTranslations("tenant.services")
@@ -39,6 +40,7 @@ export default function ServicesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (submitting) return
     if (!organizationId) return
     setSubmitting(true)
     setFormError(null)
@@ -125,7 +127,14 @@ export default function ServicesPage() {
             <p className="text-sm text-red-600">{formError}</p>
           )}
           <Button type="submit" disabled={submitting}>
-            {submitting ? t("creating") : t("create")}
+            {submitting ? (
+              <>
+                <Loader2Icon className="mr-2 size-4 animate-spin" />
+                {t("creating")}
+              </>
+            ) : (
+              t("create")
+            )}
           </Button>
         </form>
       )}

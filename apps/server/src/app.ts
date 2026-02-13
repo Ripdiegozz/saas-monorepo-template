@@ -9,6 +9,7 @@ import { createBookingModule } from "./features/booking/booking-module";
 import { billingRoutes } from "./features/billing/presentation/billing-routes";
 import { organizationRoutes } from "./features/organization/presentation/organization-routes";
 import { adminRoutes } from "./features/admin/presentation/admin-routes";
+import { profileRoutes } from "./features/profile/presentation/profile-routes";
 import { realtimeRoutes } from "./features/realtime/presentation/realtime-routes";
 
 const app = new OpenAPIHono<{
@@ -27,6 +28,7 @@ app.get("/api/health", (c) => {
 app.route("/api", createBookingModule());
 app.route("/api/billing", billingRoutes);
 app.route("/api/organizations", organizationRoutes);
+app.route("/api/profile", profileRoutes);
 // Public: no auth required - used to show welcome/first-admin flow
 app.get("/api/admin/needs-setup", async (c) => {
   const rows = await db.select().from(superAdmin).limit(1);
