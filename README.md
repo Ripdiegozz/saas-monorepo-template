@@ -1,31 +1,70 @@
-# shadcn/ui monorepo template
+# Multi-Tenant Booking SaaS Template
 
-This template is for creating a monorepo with shadcn/ui.
+Self-hosted multi-tenant booking SaaS template (Dokploy / Coolify / Docker CE). Includes auth (Better Auth + organization), billing (Polar), booking with slot conflict detection, and realtime (SSE).
 
-## Usage
+## Stack
+
+- **UI**: Next.js 16 (App Router)
+- **API**: Hono + TypeScript + Clean Architecture
+- **DB**: Drizzle ORM + PostgreSQL
+- **Auth**: Better Auth (multi-tenant organization)
+- **Billing**: Polar.sh (Free / Pro / Enterprise)
+- **API Docs**: OpenAPI + Scalar
+
+## Local Development
+
+### With Docker (recommended)
 
 ```bash
-pnpm dlx shadcn@latest init
+# Start UI (:3000), API (:4000) and Postgres (:5432) with hot reload
+docker compose -f compose.dev.yml up
+
+# First run: apply migrations (in another terminal)
+docker compose -f compose.dev.yml exec server pnpm --filter @workspace/db db:push
 ```
 
-## Adding components
-
-To add components to your app, run the following command at the root of your `web` app:
+### Without Docker
 
 ```bash
-pnpm dlx shadcn@latest add button -c apps/web
+# 1. Postgres
+docker compose -f infra/compose/postgres.yml up -d
+
+# 2. Migrations
+pnpm --filter @workspace/db db:migrate
+
+# 3. Services
+pnpm dev
 ```
 
-This will place the ui components in the `packages/ui/src/components` directory.
+## Production & Self-Hosting
 
-## Tailwind
+- **[DEPLOY_SELFHOST.md](docs/DEPLOY_SELFHOST.md)** – Docker CE on VPS, environment variables, SSL
+- **[DEPLOY_DOKPLOY.md](docs/DEPLOY_DOKPLOY.md)** – One-click deploy with Dokploy
+- **[DEPLOY_COOLIFY.md](docs/DEPLOY_COOLIFY.md)** – One-click deploy with Coolify
+- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** – Multi-tenant model, auth flows, SSE
 
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
+## AIO Script
 
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/button"
+```bash
+./scripts/install.sh noproxy   # UI + API + Postgres
+./scripts/install.sh aio       # With proxy and SSL (when compose.aio exists)
 ```
+
+## Monorepo Structure
+
+```
+apps/
+  web/          # Next.js (tenant pages: /tenant/[slug]/dashboard, /tenant/[slug]/services)
+  server/       # Hono API (auth, booking, billing, SSE)
+packages/
+  db/           # Drizzle schema, migrations, client
+  ui/           # shadcn components
+infra/
+  compose/      # compose.dev, postgres, noproxy, aio
+```
+
+## API
+
+- **OpenAPI doc**: `GET /doc`
+- **Scalar UI**: `GET /scalar`
+- **Health**: `GET /api/health`

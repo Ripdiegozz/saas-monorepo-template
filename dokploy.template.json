@@ -1,0 +1,26 @@
+{
+  "name": "booking-saas",
+  "description": "Multi-tenant Booking SaaS",
+  "services": [
+    {
+      "name": "web",
+      "port": 3000,
+      "env": ["NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_APP_URL"]
+    },
+    {
+      "name": "server",
+      "port": 4000,
+      "env": [
+        "DATABASE_URL",
+        "BETTER_AUTH_SECRET",
+        "BETTER_AUTH_URL",
+        "BETTER_AUTH_TRUSTED_ORIGINS",
+        "POLAR_ACCESS_TOKEN",
+        "POLAR_WEBHOOK_SECRET",
+        "POLAR_SERVER",
+        "BILLING_SUCCESS_URL",
+        "BILLING_RETURN_URL"
+      ]
+    }
+  ]
+}

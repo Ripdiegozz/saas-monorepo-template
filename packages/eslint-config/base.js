@@ -22,11 +22,32 @@ export const config = [
     },
   },
   {
+    rules: {
+      // E2E type safety: no any, no type assertions unless strictly necessary
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/consistent-type-assertions": [
+        "error",
+        { assertionStyle: "never" },
+      ],
+    },
+  },
+  {
     plugins: {
       onlyWarn,
     },
   },
   {
-    ignores: ["dist/**"],
+    ignores: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.next/**",
+      "**/.cursor/**",
+      "**/build/**",
+      "**/coverage/**",
+      "**/.turbo/**",
+      "**/.cache/**",
+      "**/out/**",
+      "**/.expo/**",
+    ],
   },
 ]

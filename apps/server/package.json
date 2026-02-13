@@ -1,0 +1,35 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon -L -e ts -w src --exec \"tsx src/index.ts\"",
+    "build": "tsup",
+    "start": "node dist/index.js",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.0",
+    "@hono/zod-openapi": "^1.2.0",
+    "@polar-sh/hono": "^0.3.11",
+    "@scalar/hono-api-reference": "^0.9.40",
+    "@workspace/db": "workspace:*",
+    "better-auth": "^1.0.0",
+    "drizzle-orm": "^0.41.0",
+    "hono": "^4.6.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@workspace/eslint-config": "workspace:^",
+    "@workspace/typescript-config": "workspace:*",
+    "dotenv": "^16.4.0",
+    "eslint": "^9.39.2",
+    "nodemon": "^3.1.11",
+    "tsup": "^8.5.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3"
+  }
+}
