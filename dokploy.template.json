@@ -15,6 +15,7 @@
         "BETTER_AUTH_SECRET",
         "BETTER_AUTH_URL",
         "BETTER_AUTH_TRUSTED_ORIGINS",
+        "APP_URL",
         "POLAR_ACCESS_TOKEN",
         "POLAR_WEBHOOK_SECRET",
         "POLAR_SERVER",

@@ -16,6 +16,7 @@ Use Dokploy's variables panel. Reference in `dokploy.template.json`:
 - `BETTER_AUTH_SECRET` – `openssl rand -base64 32`
 - `BETTER_AUTH_URL` – `https://api.yourdomain.com`
 - `BETTER_AUTH_TRUSTED_ORIGINS` – `https://app.yourdomain.com`
+- `APP_URL` – `https://app.yourdomain.com` (frontend URL for invitation links)
 - `NEXT_PUBLIC_API_URL` – `https://api.yourdomain.com`
 - `NEXT_PUBLIC_APP_URL` – `https://app.yourdomain.com`
 

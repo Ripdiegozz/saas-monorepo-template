@@ -16,6 +16,7 @@ Configure in Coolify according to your environment:
 - `BETTER_AUTH_SECRET`
 - `BETTER_AUTH_URL` – public API URL
 - `BETTER_AUTH_TRUSTED_ORIGINS` – frontend URL
+- `APP_URL` – frontend URL (for invitation links)
 - `NEXT_PUBLIC_API_URL`
 - `NEXT_PUBLIC_APP_URL`
 
