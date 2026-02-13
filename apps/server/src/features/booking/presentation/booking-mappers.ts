@@ -22,6 +22,7 @@ export function toAppointmentResponse(a: Appointment) {
     endAt: a.endAt.toISOString(),
     customerEmail: a.customerEmail,
     customerName: a.customerName,
+    customerPhone: a.customerPhone ?? null,
     status: a.status,
     createdAt: a.createdAt.toISOString(),
     updatedAt: a.updatedAt.toISOString(),

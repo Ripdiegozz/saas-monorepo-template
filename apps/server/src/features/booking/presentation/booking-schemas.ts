@@ -29,6 +29,7 @@ export const appointmentSchema = z
     endAt: z.string().openapi({ example: "2025-01-15T10:30:00Z" }),
     customerEmail: z.string().email().openapi({ example: "user@example.com" }),
     customerName: z.string().nullable().openapi({ example: "Jane Doe" }),
+    customerPhone: z.string().nullable().openapi({ example: "+34612345678" }),
     status: z.enum(["scheduled", "canceled", "completed"]).openapi({ example: "scheduled" }),
     createdAt: z.string().openapi({ example: "2025-01-01T00:00:00Z" }),
     updatedAt: z.string().openapi({ example: "2025-01-01T00:00:00Z" }),
@@ -41,5 +42,6 @@ export const createAppointmentBodySchema = z
     startAt: z.string().openapi({ example: "2025-01-15T10:00:00Z" }),
     customerEmail: z.string().email().openapi({ example: "user@example.com" }),
     customerName: z.string().optional().openapi({ example: "Jane Doe" }),
+    customerPhone: z.string().optional().openapi({ example: "+34612345678" }),
   })
   .openapi("CreateAppointmentBody");

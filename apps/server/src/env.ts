@@ -14,6 +14,8 @@ const envSchema = z.object({
   POLAR_SERVER: z.enum(["sandbox", "production"]).default("sandbox"),
   BILLING_SUCCESS_URL: z.string().url().optional(),
   BILLING_RETURN_URL: z.string().url().optional(),
+  // Frontend URL for invitation links (default: first trusted origin or localhost:3000)
+  APP_URL: z.string().url().optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;

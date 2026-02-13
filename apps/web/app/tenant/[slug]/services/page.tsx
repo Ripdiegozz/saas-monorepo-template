@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTenant } from "@/components/tenant-provider";
+import { TenantNav } from "@/components/tenant-nav";
 import {
   getServices,
   createService,
@@ -69,15 +70,17 @@ export default function ServicesPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold">{organization.name} – Services</h1>
-      <p className="text-muted-foreground mb-6">
-        Manage your bookable services
-      </p>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">{organization.name} – Servicios</h1>
+          <p className="text-muted-foreground">
+            Gestiona tus servicios reservables
+          </p>
+        </div>
+        <TenantNav />
+      </div>
 
       <div className="flex justify-between items-center mb-6">
-        <Button asChild variant="outline">
-          <a href={`/tenant/${organization.slug}/dashboard`}>Back to Dashboard</a>
-        </Button>
         <Button onClick={() => setFormOpen(!formOpen)}>
           {formOpen ? "Cancel" : "Add Service"}
         </Button>

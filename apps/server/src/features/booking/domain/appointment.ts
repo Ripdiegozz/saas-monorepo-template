@@ -11,6 +11,7 @@ export type Appointment = {
   endAt: Date;
   customerEmail: string;
   customerName: string | null;
+  customerPhone: string | null;
   status: AppointmentStatus;
   createdAt: Date;
   updatedAt: Date;
@@ -24,10 +25,12 @@ export function createAppointment(params: {
   endAt: Date;
   customerEmail: string;
   customerName: string | null;
+  customerPhone?: string | null;
 }): Appointment {
   const now = new Date();
   return {
     ...params,
+    customerPhone: params.customerPhone ?? null,
     status: "scheduled",
     createdAt: now,
     updatedAt: now,

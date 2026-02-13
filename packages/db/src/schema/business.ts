@@ -44,6 +44,7 @@ export const appointment = pgTable("appointment", {
   endAt: timestamp("endAt", { mode: "date" }).notNull(),
   customerEmail: text("customerEmail").notNull(),
   customerName: text("customerName"),
+  customerPhone: text("customerPhone"),
   status: text("status").notNull().default("scheduled"), // scheduled | canceled | completed
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),

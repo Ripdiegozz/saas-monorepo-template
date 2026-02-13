@@ -181,6 +181,7 @@ export function createBookingRoutes(useCases: UseCases) {
       startAt: new Date(body.startAt),
       customerEmail: body.customerEmail,
       customerName: body.customerName,
+      customerPhone: body.customerPhone,
     });
     if (!result.isOk) throwBookingError(result.error);
     return c.json(toAppointmentResponse(result.value), 201);

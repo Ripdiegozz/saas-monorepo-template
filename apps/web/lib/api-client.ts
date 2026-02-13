@@ -147,6 +147,7 @@ export type Appointment = {
   endAt: string;
   customerEmail: string;
   customerName: string | null;
+  customerPhone?: string | null;
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -190,6 +191,7 @@ export async function createAppointment(
     startAt: string;
     customerEmail: string;
     customerName?: string;
+    customerPhone?: string;
   }
 ): Promise<Appointment> {
   return apiPost<Appointment>("/api/appointments", body, { organizationId });

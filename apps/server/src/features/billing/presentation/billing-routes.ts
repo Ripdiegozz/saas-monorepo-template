@@ -140,9 +140,30 @@ if (hasPolarConfig) {
 billingApp.get("/plans", (c) =>
   c.json({
     plans: [
-      { id: "free", name: "Free", limits: { services: 3, appointments: 50 } },
-      { id: "pro", name: "Pro", limits: { services: 20, appointments: 500 } },
-      { id: "enterprise", name: "Enterprise", limits: { services: -1, appointments: -1 } },
+      {
+        id: "free",
+        name: "Free",
+        organizations: 1,
+        employees: 3,
+        customers: 100,
+        limits: { services: 3, appointments: 50 },
+      },
+      {
+        id: "pro",
+        name: "Pro",
+        organizations: 3,
+        employees: 15,
+        customers: 1000,
+        limits: { services: 20, appointments: 500 },
+      },
+      {
+        id: "enterprise",
+        name: "Enterprise",
+        organizations: -1,
+        employees: -1,
+        customers: -1,
+        limits: { services: -1, appointments: -1 },
+      },
     ],
   })
 );

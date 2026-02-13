@@ -35,6 +35,14 @@ export async function createAuth() {
   plugins: [
     organization({
       allowUserToCreateOrganization: true,
+      async sendInvitationEmail(data) {
+        const baseUrl = env.APP_URL
+          ?? env.BETTER_AUTH_TRUSTED_ORIGINS?.split(",")[0]?.trim()
+          ?? "http://localhost:3000";
+        const inviteLink = `${baseUrl}/accept-invitation/${data.id}`;
+        // TODO: Integrate Resend, SendGrid, etc. for production
+        console.log(`[Invitation] Email: ${data.email}, Link: ${inviteLink}`);
+      },
     }),
     adminPlugin({ adminUserIds }),
   ],

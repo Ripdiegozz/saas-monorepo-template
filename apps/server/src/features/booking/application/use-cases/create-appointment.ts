@@ -11,6 +11,7 @@ type CreateAppointmentCommand = {
   startAt: Date;
   customerEmail: string;
   customerName?: string;
+  customerPhone?: string;
 };
 
 function generateId(prefix: string): string {
@@ -59,6 +60,7 @@ export function createCreateAppointmentUseCase(repos: {
       endAt,
       customerEmail: command.customerEmail,
       customerName: command.customerName ?? null,
+      customerPhone: command.customerPhone ?? null,
     });
     await repos.appointment.save(appointment);
     return ok(appointment);

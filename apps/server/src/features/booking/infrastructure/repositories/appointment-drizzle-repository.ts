@@ -14,6 +14,7 @@ function toDomain(row: {
   endAt: Date;
   customerEmail: string;
   customerName: string | null;
+  customerPhone: string | null;
   status: string;
   createdAt: Date;
   updatedAt: Date;
@@ -26,6 +27,7 @@ function toDomain(row: {
     endAt: row.endAt,
     customerEmail: row.customerEmail,
     customerName: row.customerName,
+    customerPhone: row.customerPhone ?? null,
     status: statusSchema.parse(row.status),
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
@@ -70,6 +72,7 @@ export function appointmentDrizzleRepository(): AppointmentRepository {
         endAt: apt.endAt,
         customerEmail: apt.customerEmail,
         customerName: apt.customerName,
+        customerPhone: apt.customerPhone,
         status: apt.status,
         createdAt: apt.createdAt,
         updatedAt: apt.updatedAt,

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTenant } from "@/components/tenant-provider";
+import { TenantNav } from "@/components/tenant-nav";
 import {
   getAppointments,
   getServices,
@@ -38,9 +39,20 @@ export default function DashboardPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold">{organization.name} – Dashboard</h1>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-2xl font-bold">{organization.name} – Dashboard</h1>
+        <TenantNav />
+      </div>
       <p className="text-muted-foreground mb-6">
-        View and manage your bookings
+        Gestiona tus reservas. Comparte tu enlace de reserva:{" "}
+        <a
+          href={`/b/${organization.slug}`}
+          className="text-primary underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          /b/{organization.slug}
+        </a>
       </p>
 
       {loading ? (

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { getNeedsSetup } from "@/lib/api-client"
 import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
@@ -20,6 +20,8 @@ import {
 
 export default function SignupPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl")
   useEffect(() => {
     getNeedsSetup()
       .then((r) => {
@@ -50,13 +52,17 @@ export default function SignupPage() {
         setLoading(false)
         return
       }
+      if (callbackUrl && callbackUrl.startsWith("/")) {
+        router.push(callbackUrl)
+        return
+      }
       const status = await getAdminStatus()
       if (status.needsBootstrap) {
         router.push("/setup")
       } else if (status.isSuperAdmin) {
         router.push("/admin")
       } else {
-        router.push("/tenant/default/dashboard")
+        router.push("/onboarding")
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong")
@@ -136,7 +142,10 @@ export default function SignupPage() {
             </Button>
             <p className="text-muted-foreground text-center text-sm">
               Already have an account?{" "}
-              <Link href="/login" className="text-primary underline">
+              <Link
+                href={callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login"}
+                className="text-primary underline"
+              >
                 Log in
               </Link>
             </p>

@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 import { getAdminStatus, getNeedsSetup, postAdminBootstrap } from "@/lib/api-client"
-import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
-import { Label } from "@workspace/ui/components/label"
+import { LandingNavbar } from "@/components/landing-navbar"
+import { LandingHero } from "@/components/landing/landing-hero"
+import { LandingFeatures } from "@/components/landing/landing-features"
+import { LandingPricing } from "@/components/landing/landing-pricing"
+import { LandingDocs } from "@/components/landing/landing-docs"
 import {
   Card,
   CardContent,
@@ -16,6 +17,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card"
+import { Button } from "@workspace/ui/components/button"
+import { Input } from "@workspace/ui/components/input"
+import { Label } from "@workspace/ui/components/label"
 
 const APP_NAME = "Booking SaaS"
 
@@ -36,7 +40,7 @@ export default function HomePage() {
         } else if (status.isSuperAdmin) {
           router.replace("/admin")
         } else {
-          router.replace("/tenant/default/dashboard")
+          router.replace("/onboarding")
         }
       })
       .catch(() => {})
@@ -66,7 +70,7 @@ export default function HomePage() {
         fetchOptions: { redirect: "manual" },
       })
       if (signUpError) {
-        setWelcomeError(signUpError.message ?? "Failed to create account")
+        setWelcomeError(signUpError.message ?? "Error al crear cuenta")
         setWelcomeLoading(false)
         return
       }
@@ -74,10 +78,10 @@ export default function HomePage() {
       if (result.success && result.isSuperAdmin) {
         router.push("/admin")
       } else {
-        setWelcomeError(result.message ?? "Setup failed")
+        setWelcomeError(result.message ?? "Error en el setup")
       }
     } catch (err) {
-      setWelcomeError(err instanceof Error ? err.message : "Something went wrong")
+      setWelcomeError(err instanceof Error ? err.message : "Algo salió mal")
     } finally {
       setWelcomeLoading(false)
     }
@@ -86,7 +90,7 @@ export default function HomePage() {
   if (isPending) {
     return (
       <div className="flex min-h-svh items-center justify-center">
-        <p className="text-muted-foreground">Loading…</p>
+        <p className="text-muted-foreground">Cargando…</p>
       </div>
     )
   }
@@ -94,7 +98,7 @@ export default function HomePage() {
   if (session) {
     return (
       <div className="flex min-h-svh items-center justify-center">
-        <p className="text-muted-foreground">Redirecting…</p>
+        <p className="text-muted-foreground">Redirigiendo…</p>
       </div>
     )
   }
@@ -102,90 +106,82 @@ export default function HomePage() {
   if (needsSetup === null) {
     return (
       <div className="flex min-h-svh items-center justify-center">
-        <p className="text-muted-foreground">Loading…</p>
+        <p className="text-muted-foreground">Cargando…</p>
       </div>
     )
   }
 
   if (needsSetup) {
     return (
-      <div className="flex min-h-svh items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Welcome to {APP_NAME}</CardTitle>
-            <CardDescription>
-              As this is your first login, you need to create an admin with email
-              and password.
-            </CardDescription>
-          </CardHeader>
-          <form onSubmit={handleCreateFirstAdmin}>
-            <CardContent className="space-y-4">
-              {welcomeError && (
-                <p className="text-destructive text-sm">{welcomeError}</p>
-              )}
-              <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Your name"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="admin@example.com"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Minimum 8 characters"
-                  required
-                  minLength={8}
-                />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button type="submit" className="w-full" disabled={welcomeLoading}>
-                {welcomeLoading ? "Creating admin…" : "Create admin"}
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
+      <div className="min-h-svh flex flex-col">
+        <LandingNavbar />
+        <div className="flex flex-1 items-center justify-center p-4">
+          <Card className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle>Bienvenido a {APP_NAME}</CardTitle>
+              <CardDescription>
+                Es la primera vez. Crea el admin inicial con email y contraseña.
+              </CardDescription>
+            </CardHeader>
+            <form onSubmit={handleCreateFirstAdmin}>
+              <CardContent className="space-y-4">
+                {welcomeError && (
+                  <p className="text-destructive text-sm">{welcomeError}</p>
+                )}
+                <div className="space-y-2">
+                  <Label htmlFor="name">Nombre</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Tu nombre"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="admin@ejemplo.com"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Contraseña</Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Mínimo 8 caracteres"
+                    required
+                    minLength={8}
+                  />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button type="submit" className="w-full" disabled={welcomeLoading}>
+                  {welcomeLoading ? "Creando admin…" : "Crear admin"}
+                </Button>
+              </CardFooter>
+            </form>
+          </Card>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center gap-4">
-      <h1 className="text-2xl font-bold">{APP_NAME}</h1>
-      <p className="text-muted-foreground text-center">
-        Sign in or create an account to get started
-      </p>
-      <div className="flex gap-2">
-        <Button asChild>
-          <Link href="/login">Log in</Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link href="/signup">Sign up</Link>
-        </Button>
-      </div>
-      <p className="text-muted-foreground text-sm">
-        Or{" "}
-        <Link href="/tenant/default/dashboard" className="text-primary underline">
-          browse as guest
-        </Link>
-      </p>
+    <div className="min-h-svh flex flex-col">
+      <LandingNavbar />
+      <LandingHero />
+      <LandingFeatures />
+      <LandingPricing />
+      <LandingDocs />
+      <footer className="border-t px-4 py-8 text-center text-sm text-muted-foreground">
+        {APP_NAME} · Boilerplate multi-tenant con Polar.sh
+      </footer>
     </div>
   )
 }
