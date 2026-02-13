@@ -56,16 +56,22 @@ function saveChecklist(state: ChecklistState) {
 export default function ProductionChecklistPage() {
   const t = useTranslations("docsPage")
   const tCommon = useTranslations("common")
-  const [state, setState] = useState<ChecklistState>(loadChecklist)
+  const defaultState = Object.fromEntries(
+    checklistIds.map((id) => [id, false])
+  ) as ChecklistState
+
+  const [state, setState] = useState<ChecklistState>(defaultState)
 
   useEffect(() => {
     setState(loadChecklist())
   }, [])
 
   const handleToggle = (id: (typeof checklistIds)[number]) => {
-    const next = { ...state, [id]: !state[id] }
-    setState(next)
-    saveChecklist(next)
+    setState((prev) => {
+      const next = { ...prev, [id]: !prev[id] }
+      saveChecklist(next)
+      return next
+    })
   }
 
   const completed = checklistIds.filter((id) => state[id]).length
@@ -94,21 +100,27 @@ export default function ProductionChecklistPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {checklistIds.map((id) => (
-              <label
+              <div
                 key={id}
-                className="flex cursor-pointer items-start gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50"
+                role="button"
+                tabIndex={0}
+                aria-pressed={state[id]}
+                aria-label={t(`checklist.${id}.title`)}
+                className="flex cursor-pointer select-none items-start gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 onClick={() => handleToggle(id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    handleToggle(id)
+                  }
+                }}
               >
-                <button
-                  type="button"
-                  role="checkbox"
-                  aria-checked={state[id]}
+                <div
                   className={cn(
-                    "mt-0.5 flex shrink-0 items-center justify-center rounded border transition-colors",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-colors",
                     state[id]
                       ? "border-primary bg-primary text-primary-foreground"
-                      : "border-input hover:bg-muted"
+                      : "border-input"
                   )}
                 >
                   {state[id] ? (
@@ -116,8 +128,8 @@ export default function ProductionChecklistPage() {
                   ) : (
                     <SquareIcon className="size-4 text-muted-foreground" />
                   )}
-                </button>
-                <div>
+                </div>
+                <div className="min-w-0 flex-1">
                   <span className="font-medium">{t(`checklist.${id}.title`)}</span>
                   <p className="text-muted-foreground mt-1 text-sm">
                     {t(`checklist.${id}.desc`)}
@@ -126,7 +138,7 @@ export default function ProductionChecklistPage() {
                 {state[id] && (
                   <CheckIcon className="ml-auto size-5 shrink-0 text-green-600 dark:text-green-400" />
                 )}
-              </label>
+              </div>
             ))}
           </CardContent>
         </Card>
